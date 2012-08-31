@@ -57,7 +57,7 @@ when "debian"
   include_recipe "chef-server::rabbitmq"
   include_recipe "gecode"
 
-when "centos","redhat","fedora"
+when "centos","redhat","fedora","amazon"
 
   include_recipe "couchdb"
   include_recipe "java"
@@ -188,12 +188,12 @@ when "init"
 
   dist_dir = value_for_platform(
     ["ubuntu", "debian"] => { "default" => "debian" },
-    ["redhat", "centos", "fedora"] => { "default" => "redhat"}
+    ["redhat", "centos", "fedora", "amazon"] => { "default" => "redhat"}
   )
 
   conf_dir = value_for_platform(
     ["ubuntu", "debian"] => { "default" => "default" },
-    ["redhat", "centos", "fedora"] => { "default" => "sysconfig"}
+    ["redhat", "centos", "fedora", "amazon"] => { "default" => "sysconfig"}
   )
 
   chef_version = node['chef_packages']['chef']['version']

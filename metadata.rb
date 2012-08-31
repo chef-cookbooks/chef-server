@@ -9,7 +9,7 @@ recipe            "chef-server::rubygems-install", "Set up rubygem installed che
 recipe            "chef-server::apache-proxy", "Configures Apache2 proxy for API and WebUI"
 recipe            "chef-server::nginx-proxy", "Configures NGINX proxy for API and WebUI"
 
-%w{ ubuntu debian redhat centos fedora freebsd openbsd }.each do |os|
+%w{ ubuntu debian redhat centos fedora amazon freebsd openbsd }.each do |os|
   supports os
 end
 

@@ -17,14 +17,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-case platform
+case node["platform"]
 when "arch"
   default["chef_server"]["init_style"]  = "arch"
   default["chef_server"]["path"]        = "/var/lib/chef"
   default["chef_server"]["run_path"]    = "/var/run/chef"
   default["chef_server"]["cache_path"]  = "/var/cache/chef"
   default["chef_server"]["backup_path"] = "/var/lib/chef/backup"
-when "debian","ubuntu","redhat","centos","fedora"
+when "debian","ubuntu","redhat","centos","fedora","amazon"
   default["chef_server"]["init_style"]  = "init"
   default["chef_server"]["path"]        = "/var/lib/chef"
   default["chef_server"]["run_path"]    = "/var/run/chef"

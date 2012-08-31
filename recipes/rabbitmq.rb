@@ -44,7 +44,7 @@ else
 end
 
 service "rabbitmq-server" do
-  if platform?("centos","redhat","fedora")
+  if platform?("centos","redhat","fedora","amazon")
     start_command "/sbin/service rabbitmq-server start &> /dev/null"
     stop_command "/sbin/service rabbitmq-server stop &> /dev/null"
   end
