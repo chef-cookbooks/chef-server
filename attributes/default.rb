@@ -44,6 +44,7 @@ else
   default["chef_server"]["backup_path"] = "/var/chef/backup"
 end
 
+default['chef_server']['bin_path']        = "/usr/sbin"
 default['chef_server']['umask']           = "0022"
 default['chef_server']['url']             = "http://localhost:4000"
 default['chef_server']['log_dir']         = "/var/log/chef"
