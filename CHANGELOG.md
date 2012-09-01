@@ -1,3 +1,10 @@
+## v1.0.0:
+
+* [COOK-801] - add amazon linux
+* [COOK-886] - use bin path consistently
+* [COOK-1034] - expander bluepill doesn't have default value for node
+  count
+
 ## v0.99.12:
 
 * [COOK-757] - compact all the views
