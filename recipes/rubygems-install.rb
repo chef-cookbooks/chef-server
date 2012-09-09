@@ -105,6 +105,7 @@ chef_dirs.each do |dir|
     owner "chef"
     group root_group
     mode 0755
+    recursive true
   end
 end
 
@@ -129,6 +130,7 @@ directory node['chef_server']['path'] do
   owner "chef"
   group root_group
   mode 0755
+  recursive true
 end
 
 %w{ cache search_index }.each do |dir|
@@ -136,6 +138,7 @@ end
     owner "chef"
     group root_group
     mode 0755
+    recursive true
   end
 end
 
@@ -149,6 +152,7 @@ directory node['chef_server']['run_path'] do
   owner "chef"
   group root_group
   mode 0755
+  recursive true
 end
 
 # install solr
@@ -184,6 +188,7 @@ when "init"
     owner "chef"
     group root_group
     mode 0755
+    recursive true
   end
 
   dist_dir = value_for_platform(
