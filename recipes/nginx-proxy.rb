@@ -28,7 +28,7 @@ root_group = value_for_platform(
 directory "/etc/chef/certificates" do
   owner "chef"
   group root_group
-  mode "700"
+  mode 0700
 end
 
 bash "Create SSL Certificates" do
@@ -42,11 +42,11 @@ bash "Create SSL Certificates" do
   not_if { ::File.exists?("/etc/chef/certificates/chef-server-proxy.pem") }
 end
 
-template "#{node[:nginx][:dir]}/sites-available/chef_server_proxy.conf" do
+template "#{node['nginx']['dir']}/sites-available/chef_server_proxy.conf" do
   source "chef_server.nginx.conf.erb"
   owner "root"
   group "root"
-  mode "0644"
+  mode 0644
   notifies :restart, "service[nginx]"
   variables(
     :api_server_name => node['chef_server']['proxy']['api_server_name'],
