@@ -23,9 +23,9 @@ root_group = value_for_platform(
   "default" => "root"
 )
 
-node['apache']['listen_ports'] << "443" unless node['apache']['listen_ports'].include?("443")
+node['apache']['listen_ports'] << node['chef_server']['proxy']['api_port'] unless node['apache']['listen_ports'].include?(node['chef_server']['proxy']['api_port'])
 if node['chef_server']['webui_enabled']
-  node['apache']['listen_ports'] << "444" unless node['apache']['listen_ports'].include?("444")
+  node['apache']['listen_ports'] << node['chef_server']['proxy']['webui_port'] unless node['apache']['listen_ports'].include?(node['chef_server']['proxy']['webui_port'])
 end
 
 include_recipe "apache2"
