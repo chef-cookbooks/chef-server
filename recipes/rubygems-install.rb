@@ -57,7 +57,7 @@ when "debian"
   include_recipe "chef-server::rabbitmq"
   include_recipe "gecode"
 
-when "centos","redhat","fedora","amazon"
+when "centos","redhat","fedora","amazon","scientific"
 
   include_recipe "couchdb"
   include_recipe "java"
@@ -193,12 +193,12 @@ when "init"
 
   dist_dir = value_for_platform(
     ["ubuntu", "debian"] => { "default" => "debian" },
-    ["redhat", "centos", "fedora", "amazon"] => { "default" => "redhat"}
+    ["redhat", "centos", "fedora", "amazon", "scientific"] => { "default" => "redhat"}
   )
 
   conf_dir = value_for_platform(
     ["ubuntu", "debian"] => { "default" => "default" },
-    ["redhat", "centos", "fedora", "amazon"] => { "default" => "sysconfig"}
+    ["redhat", "centos", "fedora", "amazon", "scientific"] => { "default" => "sysconfig"}
   )
 
   chef_version = node['chef_packages']['chef']['version']
@@ -221,7 +221,7 @@ when "init"
       to "#{node['languages']['ruby']['bin_dir']}/#{svc}"
     end
 
-    service "#{svc}" do
+    service svc do
       supports :status => true
       action [ :enable, :start ]
     end
