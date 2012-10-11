@@ -103,6 +103,7 @@ The following attributes are chosen based on the platform and set accordingly. S
 * centos
 * fedora
 * amazon
+* scientific
 * openbsd
 * freebsd
 * mac\_os\_x

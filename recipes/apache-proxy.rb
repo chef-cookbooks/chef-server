@@ -41,7 +41,7 @@ include_recipe "apache2::mod_deflate"
 directory "/etc/chef/certificates" do
   owner "chef"
   group root_group
-  mode "700"
+  mode 0700
 end
 
 bash "Create SSL Certificates" do
