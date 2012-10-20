@@ -104,7 +104,7 @@ chef_dirs.each do |dir|
   directory dir do
     owner "chef"
     group root_group
-    mode 0755
+    mode 00755
     recursive true
   end
 end
@@ -114,7 +114,7 @@ end
     source "#{cfg}.rb.erb"
     owner "chef"
     group root_group
-    mode 0600
+    mode 00600
   end
 
   link "/etc/chef/webui.rb" do
@@ -129,7 +129,7 @@ end
 directory node['chef_server']['path'] do
   owner "chef"
   group root_group
-  mode 0755
+  mode 00755
   recursive true
 end
 
@@ -137,7 +137,7 @@ end
   directory "#{node['chef_server']['path']}/#{dir}" do
     owner "chef"
     group root_group
-    mode 0755
+    mode 00755
     recursive true
   end
 end
@@ -145,13 +145,13 @@ end
 directory "/etc/chef/certificates" do
   owner "chef"
   group root_group
-  mode 0700
+  mode 00700
 end
 
 directory node['chef_server']['run_path'] do
   owner "chef"
   group root_group
-  mode 0755
+  mode 00755
   recursive true
 end
 
@@ -187,7 +187,7 @@ when "init"
     action :create
     owner "chef"
     group root_group
-    mode 0755
+    mode 00755
     recursive true
   end
 
@@ -209,12 +209,12 @@ when "init"
 
     template "/etc/init.d/#{svc}" do
       source "#{dist_dir}/init.d/#{svc}.erb"
-      mode 0755
+      mode 00755
     end
 
     file "/etc/#{conf_dir}/#{svc}" do
       content conf_content
-      mode 0644
+      mode 00644
     end
 
     link "#{node['chef_server']['bin_path']}/#{svc}" do
@@ -238,7 +238,7 @@ when "bluepill"
   server_services.each do |svc|
     template "#{node['bluepill']['conf_dir']}/#{svc}.pill" do
       source "#{svc}.pill.erb"
-      mode 0644
+      mode 00644
     end
 
     bluepill_service svc do
