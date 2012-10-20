@@ -33,23 +33,17 @@ user "chef" do
   home node['chef_server']['path']
 end
 
-case node['platform']
-when "ubuntu"
-
-  if node['platform_version'].to_f >= 9.10
-    include_recipe "couchdb"
-  elsif node['platform_version'].to_f >= 8.10
-    include_recipe "couchdb::source"
-  end
-
-  include_recipe "java"
-  include_recipe "chef-server::rabbitmq"
-  include_recipe "gecode"
-
+case node['platform_family']
 when "debian"
-  if node['platform_version'].to_f >= 6.0 || node['platform_version'] =~ /.*sid/
+  if node['platform'] == "ubuntu" AND node['platform_version'].to_f >= 9.10
+      include_recipe "couchdb"
+  elsif node['platform'] == "ubuntu" AND node['platform_version'].to_f >= 8.10
+    include_recipe "couchdb::source"
+  end
+
+  if node['platform'] == "debian" AND node['platform_version'].to_f >= 6.0 || node['platform'] == "debian" AND node['platform_version'] =~ /.*sid/
     include_recipe "couchdb"
-  else
+  elsif node['platform'] == "debian"
     include_recipe "couchdb::source"
   end
 
@@ -57,7 +51,7 @@ when "debian"
   include_recipe "chef-server::rabbitmq"
   include_recipe "gecode"
 
-when "centos","redhat","fedora","amazon","scientific"
+when "rhel", "fedora"
 
   include_recipe "couchdb"
   include_recipe "java"
@@ -191,14 +185,14 @@ when "init"
     recursive true
   end
 
-  dist_dir = value_for_platform(
-    ["ubuntu", "debian"] => { "default" => "debian" },
-    ["redhat", "centos", "fedora", "amazon", "scientific"] => { "default" => "redhat"}
+  dist_dir = value_for_platform_family(
+    ["debian"] => { "default" => "debian" },
+    ["rhel", "fedora"] => { "default" => "redhat"}
   )
 
-  conf_dir = value_for_platform(
-    ["ubuntu", "debian"] => { "default" => "default" },
-    ["redhat", "centos", "fedora", "amazon", "scientific"] => { "default" => "sysconfig"}
+  conf_dir = value_for_platform_family(
+    ["debian"] => { "default" => "default" },
+    ["rhel", "fedora"] => { "default" => "sysconfig"}
   )
 
   chef_version = node['chef_packages']['chef']['version']
