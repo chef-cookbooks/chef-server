@@ -83,6 +83,7 @@ The chef-server cookbook requires the following cookbooks from Opscode. Some are
 * daemontools
 * ucspi-tcp
 * build-essential
+* erlang
 
 ATTRIBUTES
 ==========

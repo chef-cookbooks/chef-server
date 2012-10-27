@@ -13,6 +13,6 @@ recipe            "chef-server::nginx-proxy", "Configures NGINX proxy for API an
   supports os
 end
 
-%w{ runit bluepill daemontools couchdb apache2 nginx openssl zlib xml java gecode }.each do |cb|
+%w{ runit bluepill daemontools couchdb apache2 nginx openssl zlib xml java gecode erlang }.each do |cb|
   depends cb
 end
