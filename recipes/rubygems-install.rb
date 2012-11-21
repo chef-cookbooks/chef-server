@@ -33,23 +33,17 @@ user "chef" do
   home node['chef_server']['path']
 end
 
-case node['platform']
-when "ubuntu"
-
-  if node['platform_version'].to_f >= 9.10
-    include_recipe "couchdb"
-  elsif node['platform_version'].to_f >= 8.10
-    include_recipe "couchdb::source"
-  end
-
-  include_recipe "java"
-  include_recipe "chef-server::rabbitmq"
-  include_recipe "gecode"
-
+case node['platform_family']
 when "debian"
-  if node['platform_version'].to_f >= 6.0 || node['platform_version'] =~ /.*sid/
+  if node['platform'] == "ubuntu" AND node['platform_version'].to_f >= 9.10
+      include_recipe "couchdb"
+  elsif node['platform'] == "ubuntu" AND node['platform_version'].to_f >= 8.10
+    include_recipe "couchdb::source"
+  end
+
+  if node['platform'] == "debian" AND node['platform_version'].to_f >= 6.0 || node['platform'] == "debian" AND node['platform_version'] =~ /.*sid/
     include_recipe "couchdb"
-  else
+  elsif node['platform'] == "debian"
     include_recipe "couchdb::source"
   end
 
@@ -57,7 +51,7 @@ when "debian"
   include_recipe "chef-server::rabbitmq"
   include_recipe "gecode"
 
-when "centos","redhat","fedora","amazon","scientific"
+when "rhel", "fedora"
 
   include_recipe "couchdb"
   include_recipe "java"
@@ -104,7 +98,7 @@ chef_dirs.each do |dir|
   directory dir do
     owner "chef"
     group root_group
-    mode 0755
+    mode 00755
     recursive true
   end
 end
@@ -114,7 +108,7 @@ end
     source "#{cfg}.rb.erb"
     owner "chef"
     group root_group
-    mode 0600
+    mode 00600
   end
 
   link "/etc/chef/webui.rb" do
@@ -129,7 +123,7 @@ end
 directory node['chef_server']['path'] do
   owner "chef"
   group root_group
-  mode 0755
+  mode 00755
   recursive true
 end
 
@@ -137,7 +131,7 @@ end
   directory "#{node['chef_server']['path']}/#{dir}" do
     owner "chef"
     group root_group
-    mode 0755
+    mode 00755
     recursive true
   end
 end
@@ -145,13 +139,13 @@ end
 directory "/etc/chef/certificates" do
   owner "chef"
   group root_group
-  mode 0700
+  mode 00700
 end
 
 directory node['chef_server']['run_path'] do
   owner "chef"
   group root_group
-  mode 0755
+  mode 00755
   recursive true
 end
 
@@ -187,18 +181,18 @@ when "init"
     action :create
     owner "chef"
     group root_group
-    mode 0755
+    mode 00755
     recursive true
   end
 
-  dist_dir = value_for_platform(
-    ["ubuntu", "debian"] => { "default" => "debian" },
-    ["redhat", "centos", "fedora", "amazon", "scientific"] => { "default" => "redhat"}
+  dist_dir = value_for_platform_family(
+    ["debian"] => { "default" => "debian" },
+    ["rhel", "fedora"] => { "default" => "redhat"}
   )
 
-  conf_dir = value_for_platform(
-    ["ubuntu", "debian"] => { "default" => "default" },
-    ["redhat", "centos", "fedora", "amazon", "scientific"] => { "default" => "sysconfig"}
+  conf_dir = value_for_platform_family(
+    ["debian"] => { "default" => "default" },
+    ["rhel", "fedora"] => { "default" => "sysconfig"}
   )
 
   chef_version = node['chef_packages']['chef']['version']
@@ -209,12 +203,12 @@ when "init"
 
     template "/etc/init.d/#{svc}" do
       source "#{dist_dir}/init.d/#{svc}.erb"
-      mode 0755
+      mode 00755
     end
 
     file "/etc/#{conf_dir}/#{svc}" do
       content conf_content
-      mode 0644
+      mode 00644
     end
 
     link "#{node['chef_server']['bin_path']}/#{svc}" do
@@ -238,7 +232,7 @@ when "bluepill"
   server_services.each do |svc|
     template "#{node['bluepill']['conf_dir']}/#{svc}.pill" do
       source "#{svc}.pill.erb"
-      mode 0644
+      mode 00644
     end
 
     bluepill_service svc do
