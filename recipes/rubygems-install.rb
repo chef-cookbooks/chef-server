@@ -46,6 +46,8 @@ when "ubuntu"
   include_recipe "chef-server::rabbitmq"
   include_recipe "gecode"
 
+  package "g++-multilib"
+
 when "debian"
   if node['platform_version'].to_f >= 6.0 || node['platform_version'] =~ /.*sid/
     include_recipe "couchdb"
