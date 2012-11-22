@@ -50,3 +50,4 @@ cookbooks/*
 
 # Vagrant
 .vagrant
+.cache
