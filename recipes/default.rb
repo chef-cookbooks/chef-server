@@ -1,11 +1,5 @@
 #
-# Author:: Joshua Timberman <joshua@opscode.com>
-# Author:: Joshua Sierles <joshua@37signals.com>
-# Cookbook Name:: chef-server
-# Recipe:: default
-#
-# Copyright 2008-2011, Opscode, Inc
-# Copyright 2009, 37signals
+# Copyright:: Copyright (c) 2012 Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,34 +13,78 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require 'open-uri'
+require 'chef/util/file_edit'
 
-http_request "compact chef couchDB" do
-  action :post
-  url "#{Chef::Config[:couchdb_url]}/chef/_compact"
-  only_if do
-    begin
-      open("#{Chef::Config[:couchdb_url]}/chef")
-      JSON::parse(open("#{Chef::Config[:couchdb_url]}/chef").read)["disk_size"] > 100_000_000
-    rescue OpenURI::HTTPError
-      nil
-    end
+# Acquire the chef-server Omnibus package
+if node['chef-server']['package_file'].nil? || node['chef-server']['package_file'].empty?
+  # Versionomy provides the OmnitruckClient with sane semantic version parsing
+  chef_gem "versionomy" do
+    version "0.4.4"
+    action :install
   end
+  # Query the Omnitruck REST service and select desired package based on
+  # the Node's platform, platform version and architecture.
+  omnibus_package = OmnitruckClient.new(node).package_for_version(node['chef-server']['version'])
+else
+  omnibus_package = node['chef-server']['package_file']
 end
 
-%w(nodes roles registrations clients data_bags data_bag_items users checksums cookbooks sandboxes environments id_map).each do |view|
+package_name = ::File.basename(omnibus_package)
+package_local_path = "#{Chef::Config[:file_cache_path]}/#{package_name}"
 
-  http_request "compact chef couchDB view #{view}" do
-    action :post
-    url "#{Chef::Config[:couchdb_url]}/chef/_compact/#{view}"
-    only_if do
-      begin
-        open("#{Chef::Config[:couchdb_url]}/chef/_design/#{view}/_info")
-        JSON::parse(open("#{Chef::Config[:couchdb_url]}/chef/_design/#{view}/_info").read)["view_index"]["disk_size"] > 100_000_000
-      rescue OpenURI::HTTPError
-        nil
-      end
-    end
+# omnibus_package is remote (ie a URI) let's download it
+if ::URI.parse(omnibus_package).absolute?
+  remote_file package_local_path do
+    source omnibus_package
+    checksum node['chef-server']['package_checksum'] if node['chef-server']['package_checksum']
+    action :create
   end
+# else we assume it's on the local machine
+else
+  package_local_path = omnibus_package
+end
 
+# install the platform package
+package package_name do
+  source package_local_path
+  provider case node["platform_family"]
+           when "debian"; Chef::Provider::Package::Dpkg
+           when "rhel"; Chef::Provider::Package::Rpm
+           else
+            raise RuntimeError("I don't know how to install chef-server packages for platform family '#{node["platform_family"]}'!")
+           end
+  action :install
+end
+
+# create the chef-server etc directory
+directory "/etc/chef-server" do
+  owner "root"
+  group "root"
+  recursive true
+  action :create
+end
+
+# create the initial chef-server config file
+template "/etc/chef-server/chef-server.rb" do
+  source "chef-server.rb.erb"
+  owner "root"
+  group "root"
+  action :create
+  notifies :run, "execute[reconfigure-chef-server]", :immediately
+end
+
+# reconfigure the installation
+execute "reconfigure-chef-server" do
+  command "chef-server-ctl reconfigure"
+  action :nothing
+end
+
+ruby_block "ensure node can resolve API FQDN" do
+  block do
+    fe = Chef::Util::FileEdit.new("/etc/hosts")
+    fe.insert_line_if_no_match(/#{node['chef-server']['api_fqdn']}/,
+                               "127.0.0.1 #{node['chef-server']['api_fqdn']}")
+    fe.write_file
+  end
+  not_if "host #{node['chef-server']['api_fqdn']}" # host resolves
 end
