@@ -1,6 +1,16 @@
 require 'berkshelf/vagrant'
 
+# We'll mount the Chef::Config[:file_cache_path] so it persists between
+# Vagrant VMs
+host_cache_path = File.expand_path("../.cache", __FILE__)
+guest_cache_path = "/tmp/vagrant-cache"
+
+# ensure the cache path exists
+FileUtils.mkdir(host_cache_path) unless File.exist?(host_cache_path)
+
 Vagrant::Config.run do |config|
+  # TODO REMOVE THIS WHEN WE FORCE SMP MODE IN ERCHEF
+  config.vm.customize ["modifyvm", :id, "--cpus", 2]
   # All Vagrant configuration is done here. The most common configuration
   # options are documented and commented below. For a complete reference,
   # please see the online documentation at vagrantup.com.
@@ -43,7 +53,7 @@ Vagrant::Config.run do |config|
   # Share an additional folder to the guest VM. The first argument is
   # an identifier, the second is the path on the guest to mount the
   # folder, and the third is the path on the host to the actual folder.
-  # config.vm.share_folder "v-data", "/vagrant_data", "../data"
+  config.vm.share_folder "cache", guest_cache_path, host_cache_path
 
   config.ssh.max_tries = 40
   config.ssh.timeout   = 120
@@ -52,6 +62,7 @@ Vagrant::Config.run do |config|
   config.ssh.forward_agent = true
 
   config.vm.provision :chef_solo do |chef|
+    chef.provisioning_path = guest_cache_path
     chef.json = {
       "chef-server" => {
 
@@ -62,4 +73,5 @@ Vagrant::Config.run do |config|
       "recipe[chef-server::default]"
     ]
   end
+
 end
