@@ -35,13 +35,13 @@ end
 
 case node['platform_family']
 when "debian"
-  if node['platform'] == "ubuntu" AND node['platform_version'].to_f >= 9.10
+  if node['platform'] == "ubuntu" && node['platform_version'].to_f >= 9.10
       include_recipe "couchdb"
-  elsif node['platform'] == "ubuntu" AND node['platform_version'].to_f >= 8.10
+  elsif node['platform'] == "ubuntu" && node['platform_version'].to_f >= 8.10
     include_recipe "couchdb::source"
   end
 
-  if node['platform'] == "debian" AND node['platform_version'].to_f >= 6.0 || node['platform'] == "debian" AND node['platform_version'] =~ /.*sid/
+  if node['platform'] == "debian" && node['platform_version'].to_f >= 6.0 || node['platform'] == "debian" && node['platform_version'] =~ /.*sid/
     include_recipe "couchdb"
   elsif node['platform'] == "debian"
     include_recipe "couchdb::source"
@@ -186,13 +186,13 @@ when "init"
   end
 
   dist_dir = value_for_platform_family(
-    ["debian"] => { "default" => "debian" },
-    ["rhel", "fedora"] => { "default" => "redhat"}
+    ["debian"] => "debian",
+    ["rhel", "fedora"] => "redhat"
   )
 
   conf_dir = value_for_platform_family(
-    ["debian"] => { "default" => "default" },
-    ["rhel", "fedora"] => { "default" => "sysconfig"}
+    ["debian"] => "default",
+    ["rhel", "fedora"] => "sysconfig"
   )
 
   chef_version = node['chef_packages']['chef']['version']
