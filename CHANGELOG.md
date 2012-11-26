@@ -1,3 +1,10 @@
+## v1.1.0:
+
+* [COOK-1637] - Directory creation in chef-server should be recursive
+* [COOK-1638] - chef-server: Minor foodcritic fixups needed
+* [COOK-1643] - Chef Server Cookbook Missing Erlang in Metadata Depends
+* [COOK-1767] - use platform_family in chef-server cookbook
+
 ## v1.0.0:
 
 * [COOK-801] - add amazon linux
