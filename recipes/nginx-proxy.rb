@@ -28,7 +28,7 @@ root_group = value_for_platform(
 directory "/etc/chef/certificates" do
   owner "chef"
   group root_group
-  mode 0700
+  mode 00700
 end
 
 bash "Create SSL Certificates" do
@@ -46,7 +46,7 @@ template "#{node['nginx']['dir']}/sites-available/chef_server_proxy.conf" do
   source "chef_server.nginx.conf.erb"
   owner "root"
   group "root"
-  mode 0644
+  mode 00644
   notifies :restart, "service[nginx]"
   variables(
     :api_server_name => node['chef_server']['proxy']['api_server_name'],

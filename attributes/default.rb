@@ -17,20 +17,20 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-case node["platform"]
+case node["platform_family"]
 when "arch"
   default["chef_server"]["init_style"]  = "arch"
   default["chef_server"]["path"]        = "/var/lib/chef"
   default["chef_server"]["run_path"]    = "/var/run/chef"
   default["chef_server"]["cache_path"]  = "/var/cache/chef"
   default["chef_server"]["backup_path"] = "/var/lib/chef/backup"
-when "debian","ubuntu","redhat","centos","fedora","amazon","scientific"
+when "debian", "rhel", "fedora"
   default["chef_server"]["init_style"]  = "init"
   default["chef_server"]["path"]        = "/var/lib/chef"
   default["chef_server"]["run_path"]    = "/var/run/chef"
   default["chef_server"]["cache_path"]  = "/var/cache/chef"
   default["chef_server"]["backup_path"] = "/var/lib/chef/backup"
-when "openbsd","freebsd","mac_os_x"
+when "openbsd", "freebsd", "mac_os_x"
   default["chef_server"]["init_style"]  = "bsd"
   default["chef_server"]["path"]        = "/var/chef"
   default["chef_server"]["run_path"]    = "/var/run"
