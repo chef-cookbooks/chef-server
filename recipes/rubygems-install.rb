@@ -218,6 +218,7 @@ when "init"
     service svc do
       supports :status => true
       action [ :enable, :start ]
+      priority("2 3 4 5" => [ "start", "19" ], "0 1 6" => [ "stop", "81" ])
     end
   end
 
