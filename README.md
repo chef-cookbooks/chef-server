@@ -194,7 +194,7 @@ Ruby, Rubygems, and VirtualBox.
     bundle exec vagrant up
 
 If you need help installing any of the prerequisites take a look at
-Jamie Windsor's excellent
+Jamie Winsor's excellent
 [blog post](http://vialstudios.com/guide-authoring-cookbooks.html) on
 the subject.
 
