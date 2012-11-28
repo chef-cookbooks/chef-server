@@ -38,7 +38,7 @@ class OmnitruckClient
     unless package.nil?
       "https://#{omnitruck_bucket}.s3.amazonaws.com" << package
     else
-      raise "I don't know anything about version #{version}"
+      raise "Could not locate chef-server #{version} package on [#{platform}-#{platform_version}_#{machine_architecture}]."
     end
   rescue => e
     raise e
