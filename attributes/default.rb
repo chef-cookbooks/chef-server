@@ -48,6 +48,7 @@ default['chef_server']['bin_path']        = "/usr/sbin"
 default['chef_server']['umask']           = "0022"
 default['chef_server']['url']             = "http://localhost:4000"
 default['chef_server']['log_dir']         = "/var/log/chef"
+default['chef_server']['log_level']         = ":info"
 default['chef_server']['api_port']        = "4000"
 default['chef_server']['webui_port']      = "4040"
 default['chef_server']['webui_enabled']   = false
