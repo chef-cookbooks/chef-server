@@ -99,7 +99,7 @@ package_file        | Location of the Omnibus package to install. This should no
 package_checksum    | SHA256 checksum of package referenced by `package_file`. | String | nil
 omnitruck_endpoint  | URL for the Omnitruck REST API endpoint. This value is ignored if `package_file` is set. | String | http://www.opscode.com/chef
 omnitruck_bucket    | S3 Bucket to pull Omnibus packages from. This value is ignored if `package_file` is set. | String | opscode-omnitruck
-version             | Chef Server version to install. This value is ignored if `package_file` is set. | String | 11.0.0
+version             | Chef Server version to install. This value is ignored if `package_file` is set. | String | :latest
 
 RECIPES
 ========
@@ -123,7 +123,8 @@ Omnibus package selection is done based on the following logic:
 2. If `node['chef-server']['package_file']` is unset (ie nil or empty
    string), the candidate package is retrieved from the Omnitruck REST
    API based on `node['chef-server']['version']` AND the node
-   platform, platform_version and architecture.
+   platform, platform_version and architecture. By default the latest package
+   is installed.
 
 dev
 ---
