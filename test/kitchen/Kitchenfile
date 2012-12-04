@@ -1,3 +1,0 @@
-cookbook "chef-server" do
-  configuration "rubygems-install"
-end
