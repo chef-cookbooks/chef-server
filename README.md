@@ -1,345 +1,232 @@
-IMPORTANT CHANGES
-=================
-
-Please note the following important changes to the Chef cookbook(s) that coincide with the 0.10 release of Chef.
-
-Cookbook Renaming
------------------
-
-The cookbook formerly known as 'chef' has been split into two cookbooks:
-
-* chef-client
-* chef-server
-
-So users have a clearer distinction about where to find recipes for managing Chef itself. The `chef` cookbook will still be available for backwards compatibility reasons.
-
-Attributes
-----------
-
-The attributes are namespaced between using `chef_client` and `chef_server`. Several attributes have been renamed completely. See the attributes section below.
-
-Paths
------
-
-Path default values are selected by Platform according to the various distributions "best practice" preference. For example, major Linux distributions use the Filesystem Hierarchy Standard, which the attributes attempt to mimic. See the various platform specific path attributes in the attributes section.
-
-Init Style
-----------
-
-The default init style is chosen based on the platform. See the usage section on choosing an init style below.
-
-Recipes
--------
-
-The recipes in the chef cookbook that are now in chef-server:
-
-    chef::bootstrap_server -> chef-server::rubygems-install
-    chef::server -> chef-server::default
-    chef::server_proxy -> chef-server::apache-proxy
-
-See the recipes section below.
-
-DESCRIPTION
+Chef Server
 ===========
 
-This cookbook is used to configure a system to be a Chef Server. It has a few recipes, please read the recipes section below for information on what each one is used for.
+This cookbook configures a system to be a Chef Server. It will install
+the appropriate platform-specific chef-server Omnibus package and
+perform the initial configuration of Chef Server.
+
+## Omnibus-based Chef-Server Overview
+
+To understand how this cookbook works it is useful to understand how a
+Chef Server instance installed via Omnibus packages behaves.
+
+### Know an Omnibus
+
+Omnibus allows you to build self-contained full-stack software
+packages. We use Omnibus to to distribute the Chef Server bundled with
+its dependencies such as Erlang, Ruby, PostgreSQL, RabbitMQ, and
+Nginx. The result is a single package that can be installed on the
+target system and configured.
+
+Omnibus packages separate the installation step from the configuration
+step. After an Omnibus package is installed, a configuration step must
+be run before the installed system can be used. In particular, this
+approach makes handling upgrades easier.
+
+### Configuring Chef Server
+
+Chef Server is configured through the
+`/etc/chef-server/chef-server.rb` file.  Standalone single-server
+configurations do not require custom configuration and can use the
+default values for everything.
+
+TODO - point to configuration options
+
+### Applying configuration changes
+
+The `chef-server-ctl reconfigure` command reads the
+`/etc/chef-server/chef-server.rb` file and applies the specified
+configuration to the system. Any time you make a change to your
+configuration, you need to run `chef-server-ctl reconfigure` to apply
+it.
+
+### chef-server-ctl
+
+Omnibus-based Chef Server installs have a command line utility,
+`chef-server-ctl`, which is used to operate the Chef Server. For
+example, you can use `chef-server-ctl` to start and stop individual
+services, reconfigure the entire server, and tail server log files.
+
+`chef-server-ctl` commands are documented below:
+
+    $ chef-server-ctl COMMAND
+
+command    | Action
+-----------|---------
+help       | Print a list of all the available chef-server-ctl commands.
+status     | Shows the status of the Chef Server services.
+start      | Start all the enabled Chef Server services.
+stop       | Stop all the enabled Chef Server services.
+restart    | Restart all the enabled chef server services.
+tail       | Follow the Chef Server logs for all services.
+test       | Executes, chef-pedant, the integration test suite against the Chef Server installation. By default only a subset of tests are run, add the `--all` flag to run the full test suite.
+
+The status, start, stop, restart, and tail commands can optionally be
+applied to a single service by adding the service name to the end of
+the command line. For example, to get the status of the erchef
+component of Chef Server, you can run:
+
+    chef-server-ctl status erchef
+
 
 REQUIREMENTS
 ============
 
-Chef ~> 0.10.0, 10.0 is required.
+Chef 10
 
 Platform
 --------
 
-The Chef Server will work on a variety of platforms, however a Ubuntu or Debian is recommended when performing a RubyGems installation. Other platforms may work but are not as well tested.
+Chef Server Omnibus packages are built for the following platforms:
 
-The `chef-server::default` recipe will work on any platform running the Chef Server, as it only compacts the CouchDB / views.
-
-See:
-
-* http://wiki.opscode.com/display/chef/Installing+Chef+Server+using+Chef+Solo
-
-Note that CentOS 5 is known to not work due to issues with Ruby.
-
-Cookbooks
----------
-
-The chef-server cookbook requires the following cookbooks from Opscode. Some are required for various init style options (bluepill, runit, daemontools):
-
-* apt
-* apache2
-* runit
-* couchdb
-* chef-client
-* chef-server
-* openssl
-* gecode
-* java
-* xml
-* zlib
-* erlang
-* bluepill
-* daemontools
-* ucspi-tcp
-* build-essential
-* erlang
+* CentOS 5 64-bit
+* CentOS 6 32-bit and 64-bit
+* Ubuntu 10.04 32-bit and 64-bit
+* Ubuntu 11.04 32-bit and 64-bit
+* Ubuntu 12.04 32-bit and 64-bit
 
 ATTRIBUTES
 ==========
 
-The attributes used by this cookbook are under the `chef_server` namespace.
-
-When using the rubygems-install recipe, set the desired attributes using a JSON file. See __RUBYGEMS_INSTALLATION__ for more information.
-
-Platform Specific Attributes
-----------------------------
-
-The following attributes are chosen based on the platform and set accordingly. See the attributes/default.rb for default values by platform. The following platforms are supported:
-
-* arch
-* debian
-* ubuntu
-* redhat
-* centos
-* fedora
-* amazon
-* scientific
-* openbsd
-* freebsd
-* mac\_os\_x
-
-### init\_style
-
-This attribute is used by the `chef-server::rubygems-install` recipe. This specifies the type of init system used on the Chef Server. The attributes file will choose an init style based on the platform, but this can be overriden by specifying an alternate value.
-
-Automatically determined values:
-
-* arch - ArchLinux, and uses the appropriate rc.d and conf.d scripts out of the `chef` gem.
-* init - Debian, Ubuntu, Red Hat, CentOS and Fedora. Uses the appropriate /etc/default, /etc/sysconfig and /etc/init.d files out of the `chef` gem.
-* bsd - OpenBSD, FreeBSD and Mac OS X, does not actually set up any system startup daemon, but provides a log message for the administrator of further hints.
-
-The following alternate init styles are available as well.
-
-* runit - sets up the daemons and logging in /etc/sv/SERVICE with Opscode's `runit` cookbook.
-* daemontools - sets up the daemons and logging in /etc/sv/SERVICE with Opscode's `daemontools` cookbook.
-* bluepill - sets up the daemons in /etc/bluepill/SERVICE with Opscode's `bluepill` cookbook.
-
-This cookbook does not yet support Upstart for Ubuntu/Debian, but that is planned for a future release, and will be specified via this attribute.
-
-### path
-
-Used for the `chef` user's home directory.
-
-### run\_path
-
-Location for PID files on systems using init scripts.
-
-If `init_style` is `init`, this is used, and should match what the init script itself uses for the PID files.
-
-### cache\_path
-
-Location where the client will cache cookbooks and other data. Corresponds to `Chef::Config[:file_cache_path]` configuration value.
-
-### backup\_path
-
-Location where backups of files replaced by Chef (template, `cookbook_file`, etc), corresponds to the `Chef::Config[:file_backup_path]` location.
-
-Non-platform Specific Attributes
---------------------------------
-
-### umask
-
-Sets the umask for files created by the server process via `Chef::Config[:umask]` in `/etc/chef/server.rb`
-
-### url
-
-Full URI for the Chef Server. Used by `Chef::Config[:chef_server_url]` configuration setting. Default is http://localhost:4000. If running chef-solr on a separate machine, configure it to the appropriate network accessible URL (e.g., http://chef.example.com:4000).
-
-### log\_dir
-
-Location where logs should be stored when initializing services via init scripts. Not used if init style is runit, daemontools or bluepill.
-
-### api\_port
-
-Port for the Server API service to listen on. Default `4000`.
-
-### webui\_port
-
-Port for the Server WebUI service to listen on. Default `4040`.
-
-### webui\_enabled
-
-As of version 0.8.x+, the WebUI part of the Chef Server is optional, and disabled by default. To enable it, set this to true.
-
-### solr\_heap\_size
-
-Sets the amount of memory for the SOLR heap, default 256M.
-
-### validation\_client\_name
-
-Set the name of the special client used to validate new clients. Default `chef-validator`.
-
-### expander\_nodes
-
-Number of nodes to start up for the chef-expander (replacement for chef-solr-indexer in 0.10). Default is 1.
-
-Server Proxy Attributes
------------------------
-
-The following attributes are used by the `apache-proxy.rb` recipe, and are stored in the `apache-proxy.rb` attributes file. They are under the `node['chef_server']` attribute space.
-
-doc\_root
----------
-
-DocumentRoot for the WebUI. Also gets set in the vhost for the API, but it is not used since the vhost merely proxies to the server on port 4000.
-
-ssl\_req
---------
-
-This attribute can be used to set up a self-signed SSL certificate automatically using OpenSSL. Fields:
-
-* C: country (two letter code)
-* ST: state/province
-* L: locality or city
-* O: organization
-* OU: organizational unit
-* CN: canonical name, usually the fully qualified domain name of the server (FQDN)
-* emailAddress: contact email address
-
-This attribute should be a single string, fields separated by /.
-
-css\_expire\_hours
-------------------
-
-Sets expiration time for CSS in the WebUI.
-
-js\_expire\_hours
------------------
-
-Sets expiration time for JavaScript in the WebUI.
-
-api\_server\_name
------------------
-
-VirtualHost server name for the API.
-
-api\_port
----------
-
-Port for the API's HTTPS proxy.
-
-api\_aliases
-------------
-
-VirtualHost server aliases for the API.
-
-webui\_server\_name
------------------
-
-VirtualHost server name for the webui.
-
-webui\_port
----------
-
-Port for the WebUI HTTPS proxy.
-
-webui\_aliases
-------------
-
-VirtualHost server alaises for the webui.
-
-RECIPES AND USAGE
-=================
-
-This section describes the recipes in the cookbook and how to use them in your environment. This is focused on the Chef Server itself. To set up a Chef Server that will also be a Chef Client to itself, see the `chef-client` cookbook.
+The attributes used by this cookbook are under the `chef-server`
+name space.
+
+Attribute | Description |Type | Default
+----------|-------------|-----|--------
+api_fqdn            | Fully qualified domain name that you want to use for accessing the Web UI and API. | String | node['fqdn']
+configuration       | Configuration values to pass down to the underlying server config file (i.e. `/etc/chef-server/chef-server.rb`). | Hash | Hash.new
+package_file        | Location of the Omnibus package to install. This should not be set if you wish to pull the packages from the Omnitruck S3 bucket. | String | nil
+package_checksum    | SHA256 checksum of package referenced by `package_file`. | String | nil
+omnitruck_endpoint  | URL for the Omnitruck REST API endpoint. This value is ignored if `package_file` is set. | String | http://www.opscode.com/chef
+omnitruck_bucket    | S3 Bucket to pull Omnibus packages from. This value is ignored if `package_file` is set. | String | opscode-omnitruck
+version             | Chef Server version to install. This value is ignored if `package_file` is set. | String | :latest
+
+RECIPES
+========
+
+This section describes the recipes in the cookbook and how to use them
+in your environment.
 
 default
 -------
 
-Since the Chef Server itself typically runs the CouchDB service for the data store, the recipe will do a compaction on the Chef database and all the views associated with the Chef Server. These compactions only occur if the database/view size is more than 100Mb. It will use the configured CouchDB URL, which is `http://localhost:5984` by default. The actual value used for the CouchDB server is from the `Chef::Config[:couchdb_url]`, so this can be dynamically changed in the /etc/chef/server.rb config file.
+This recipe:
 
-apache-proxy
-------------
+* Installs the appropriate platform-specific chef-server Omnibus package.
+* Creates the initial `/etc/chef-server/chef-server.rb` file.
+* Performs initial system configuration via `chef-server-ctl reconfigure`.
 
-This recipe sets up an Apache2 VirtualHost to proxy HTTPS for the Chef Server API and WebUI.
+Omnibus package selection is done based on the following logic:
 
-The API will be proxied on port 443. If the WebUI is enabled, it will be proxied on port 444. The recipe dynamically creates the OpenSSL certificate based on the `node['chef_server']['ssl_req']` attribute. It uses additional configuration for Apache to improve performance of the webui. The virtual host template is `chef_server.conf.erb`. The DocumentRoot setting is used for the WebUI, but not the API, and is set with the attribute `node['chef_server']['doc_root']`.
+1. If a value has been provided, the chef-server Omnibus package is
+   fetched from `node['chef-server']['package_file']`
+2. If `node['chef-server']['package_file']` is unset (ie nil or empty
+   string), the candidate package is retrieved from the Omnitruck REST
+   API based on `node['chef-server']['version']` AND the node
+   platform, platform_version and architecture. By default the latest package
+   is installed.
 
-rubygems-install
-----------------
+dev
+---
 
-ONLY FOR RUBYGEMS INSTALLATIONS. Do not use this recipe if you installed Chef from packages for your platform.
+This recipe converts a Chef Server installation into development mode
+for easy hacking on the underlying server components. This recipe should
+not be run on a production server.
 
-Use this recipe to "bootstrap" a system to become a Chef Server. This recipe does the following:
+This recipe will place checkouts for all of Chef Server's main
+software components at `/opt/chef-server-dev/code`. These component
+checkouts will also be symlinked into the underlying Chef Server
+installation.  Changes made to component code will be reflected in the
+running Chef Server instance (most often only after a restart of the
+given service).
 
-* Creates a `chef` user.
-* Installs CouchDB from package or source depending on the platform.
-* Installs Java for the `chef-solr` search engine.
-* Installs RabbitMQ with the `chef-server::rabbitmq` recipe for the chef-expander consumer.
-* Installs Gecode with the `gecode` cookbook. On Debian/Ubuntu, Opscode's APT repository will be used. On other platforms, Gecode will be installed from source, which can take a long time.
-* Installs all the Server-related RubyGems.
-* Creates the server configuration file `/etc/chef/server.rb` based on the configuration passed via JSON.
-* Creates the chef-solr configuration file, `/etc/chef/solr.rb`.
-* Sets up the `chef-server`, `chef-solr`, `chef-expander` services depending on the `init_style` attribute (see above).
+INSTALL METHODS
+===============
 
-Minimal JSON to use for the server configuration:
+## Bootstrap Chef (server) with Chef (solo)
 
-    {
-      "chef_server": {
-        "url": "http://localhost.localdomain:4000",
+The easiest way to get a Chef Server up and running is to install
+chef-solo (via the chef-client Omnibus packages) and bootstrap the
+system using this cookbook:
+
+    # install chef-solo
+    curl -L https://www.opscode.com/chef/install.sh | sudo bash
+    # create required bootstrap dirs/files
+    mkdir -p /var/chef/cache /var/chef/cookbooks
+    # pull down this chef-server cookbook
+    wget -qO- https://github.com/opscode-cookbooks/chef-server/archive/master.tar.gz | tar xvzC /var/chef/cookbooks
+    # GO GO GO!!!
+    chef-solo -o 'recipe[chef-server::default]'
+
+If you need more control over the final configuration of your Chef
+Server instance you can create a JSON attributes file and set
+underlying configuration via the
+`node['chef-server']['configuration']` attribute. For example, you can
+disable the webui with the following configuration:
+
+    echo '{
+      "chef-server": {
+        "configuration": {
+          "chef-server-webui": {
+            "enable": false
+          }
+        }
       },
-      "run_list": "recipe[chef-server::rubygems-install]"
-    }
+      "run_list": [ "recipe[chef-server::default]" ]
+    }' > /tmp/no-webui.json
 
-Note that the `chef-server-webui` is optional and can be enabled if desired.
+You would then pass this file to the initial chef-solo command:
 
-    {
-      "chef_server": {
-        "url": "http://localhost.localdomain:4000",
-        "webui_enabled": true
-      },
-      "run_list": "recipe[chef-server::rubygems-install]"
-    }
+    chef-solo -j /tmp/no-webui.json
 
-For more information see [Bootstrap Chef RubyGems Installation](http://wiki.opscode.com/display/chef/Bootstrap+Chef+RubyGems+Installation) on the Chef Wiki and the attributes section above.
+## Demo Chef Server with Vagrant and Berkshelf
 
-TEMPLATES
-=========
+We <3 the wonderful open-source tools
+[Berkshelf](http://berkshelf.com/) and
+[Vagrant](http://vagrantup.com/). You can take Chef Server for a spin
+using the Berksfile and Vagrantfile shipped along side this cookbook.
+The only requirements for standing up a virtualized Chef Server are
+Ruby, Rubygems, and VirtualBox.
 
-chef\_server.conf.erb
----------------------
+    gem install bundler --no-ri --no-rdoc
+    git clone git://github.com/opscode-cookbooks/chef-server.git
+    cd chef-server
+    bundle install
+    bundle exec vagrant up
 
-VirtualHost file used by Apache2 in the `chef-server::apache-proxy` recipe.
+If you need help installing any of the prerequisites take a look at
+Jamie Winsor's excellent
+[blog post](http://vialstudios.com/guide-authoring-cookbooks.html) on
+the subject.
 
-server.rb.erb
--------------
+You can easily SSH into the running VM using the `vagrant ssh` command.
+The VM can easily be stopped and deleted with the `vagrant destroy`
+command. Please see the official [Vagrant documentation](http://vagrantup.com/v1/docs/commands.html)
+for a more in depth explanation of available commands.
 
-Configuration for the server and server components used in the `chef-server::rubygems-install` recipe.
+The running Chef-Server components are accessible from the host machine
+using the following URLs:
 
-solr.rb.erb
------------
+* Web UI: https://33.33.33.10/
+* Version Manifest: https://33.33.33.10/version
+* Chef Server API (routing requires `X-OPS-USERID` HTTP header being properly
+set): https://33.33.33.10/
 
-Configuration for chef-solr used in the `chef-server::rubygems-install` recipe.
+## Contribute to and Hack on Chef Server (including Erchef)
 
-sv-\*run.erb
--------------
+This cookbook ships with a recipe named `dev` that will take any Chef
+Server instance and flip it into development mode. If you want to use
+the Vagrant-based environment referenced above, edit the `chef.run_list`
+value in the `Vagrantfile` to include an additional
+`recipe[chef-server::dev]` run list item.
 
-Runit and daemontools "run" scripts for the services configured when `node['chef_server']['init_style']` is "runit" or "daemontools".
-
-\*.pill.erb
------------
-
-Bluepill "pill" files for the services configured when `node['chef_server']['init_style']` is "bluepill".
 
 LICENSE AND AUTHORS
 ===================
 
-* Author: Joshua Timberman <joshua@opscode.com>
-* Author: Joshua Sierles <joshua@37signals.com>
+* Author: Seth Chisamore <schisamo@opscode.com>
 
-* Copyright 2008-2012, Opscode, Inc
-* Copyright 2009, 37signals
+Copyright 2012, Opscode, Inc
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
