@@ -17,7 +17,7 @@
 # limitations under the License.
 
 default['chef-server']['omnitruck_endpoint'] = "http://www.opscode.com/chef"
-default['chef-server']['omnitruck_bucket'] = "opscode-omnitruck"
+default['chef-server']['omnitruck_bucket'] = "opscode-omnitruck-release"
 default['chef-server']['version'] = :latest
 default['chef-server']['package_file'] = nil
 default['chef-server']['package_checksum'] = nil
