@@ -11,6 +11,7 @@ FileUtils.mkdir(host_cache_path) unless File.exist?(host_cache_path)
 Vagrant::Config.run do |config|
   # TODO REMOVE THIS WHEN WE FORCE SMP MODE IN ERCHEF
   config.vm.customize ["modifyvm", :id, "--cpus", 2]
+  config.vm.customize ["modifyvm", :id, "--memory", 1024]
   # All Vagrant configuration is done here. The most common configuration
   # options are documented and commented below. For a complete reference,
   # please see the online documentation at vagrantup.com.
