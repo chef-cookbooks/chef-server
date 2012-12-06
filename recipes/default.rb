@@ -18,15 +18,11 @@ require 'chef/util/file_edit'
 # Acquire the chef-server Omnibus package
 if node['chef-server']['package_file'].nil? || node['chef-server']['package_file'].empty?
   # Versionomy provides the OmnitruckClient with sane semantic version parsing
-  chef_gem "versionomy" do
-    version "0.4.4"
-    action :install
-  end
   # Query the Omnitruck REST service and select desired package based on
   # the Node's platform, platform version and architecture.
   omnibus_package = OmnitruckClient.new(node).package_for_version(node['chef-server']['version'])
   unless omnibus_package
-    raise "Could not locate chef-server package matching version #{version} for node."
+    raise "Could not locate chef-server package matching version #{node['chef-server']['version']} for node."
   end
 else
   omnibus_package = node['chef-server']['package_file']
