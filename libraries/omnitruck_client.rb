@@ -58,35 +58,40 @@ class OmnitruckClient
     @machine_architecture = node[:kernel][:machine]
   end
 
-  def latest_package_for_version(candidate_version, available_versions)
-    require 'versionomy'
+  def to_gem_version(string)
+    Gem::Version.new(string.gsub(/-\w{8}$/,'').gsub(/[^\w.]+/,'.'))
+   end
 
+  def latest_package_for_version(candidate_version, available_versions)
     # Latest translates into max version
     if candidate_version.to_s == "latest" || candidate_version.nil? || candidate_version.empty?
-      available_versions[available_versions.keys.max]
+      max_version = available_versions.keys.sort {|a,b| to_gem_version(a) <=> to_gem_version(b)}.last
+      available_versions[max_version]
     elsif candidate_version && ( candidate_version.include?("-") ||
                                  candidate_version.match(/[[:alpha:]]/) )
       available_versions[candidate_version]
     else
-      parsed_available_versions =[]
-      parsed_available_versions = available_versions.keys.map do |v|
-        parsed_version = Versionomy.parse(v) rescue nil
+      filtered_available_versions =[]
+      filtered_available_versions = available_versions.keys.map do |v|
+        parsed_version = to_gem_version(v) rescue nil
         # exclude versions such as x.y.z.beta.0 and x.y.z.rc.1
         next if parsed_version.nil? || parsed_version.prerelease?
-        parsed_version
+        v
       end.compact
 
-      parsed_candidate_version = Versionomy.parse(candidate_version)
+      parsed_candidate_version = to_gem_version(candidate_version)
 
       # Find all of the iterations of the version matching the major, minor, tiny
-      matching_versions = parsed_available_versions.find_all do |v|
-        parsed_candidate_version.major == v.major &&
-        parsed_candidate_version.minor == v.minor &&
-        parsed_candidate_version.tiny == v.tiny
+      matching_versions = filtered_available_versions.find_all do |v|
+        v = to_gem_version(v)
+        parsed_candidate_version.segments[0] == v.segments[0] &&
+        parsed_candidate_version.segments[1] == v.segments[1] &&
+        parsed_candidate_version.segments[2] == v.segments[2]
       end
 
-      if max_interation = matching_versions.max
-        available_versions[max_interation.to_s]
+      if max_interation = matching_versions.sort {|a,b|
+          to_gem_version(a) <=> to_gem_version(b)}.last
+        available_versions[max_interation]
       end
     end
   end
