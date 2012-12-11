@@ -19,6 +19,23 @@ require 'chef/json_compat'
 require 'uri'
 
 class OmnitruckClient
+  class Version
+    attr_reader :version_string, :parsed_version
+
+    def initialize(version_string)
+      @version_string = version_string
+      @parsed_version = Gem::Version.new(version_string.gsub(/-\w{8}$/,'').gsub(/[^\w.]+/,'.'))
+    end
+
+    def to_s
+      @version_string
+    end
+
+    def <=>(other)
+      @parsed_version <=> other.parsed_version
+    end
+
+  end
 
   attr_reader :node, :platform, :platform_version, :machine_architecture
   attr_reader :omnitruck_endpoint, :omnitruck_bucket
@@ -33,7 +50,10 @@ class OmnitruckClient
   def package_for_version(version)
     server_list = get_request("#{omnitruck_endpoint}/full_server_list")
     available_versions_for_platform = server_list[platform][platform_version][machine_architecture]
-    package = latest_package_for_version(version, available_versions_for_platform)
+    parsed_versions_for_platform = Hash[available_versions_for_platform.map do |v, package|
+                                        [OmnitruckClient::Version.new(v), package]
+                                      end]
+    package = latest_package_for_version(version, parsed_versions_for_platform)
     unless package.nil?
       "https://#{omnitruck_bucket}.s3.amazonaws.com" << package
     end
@@ -58,39 +78,31 @@ class OmnitruckClient
     @machine_architecture = node[:kernel][:machine]
   end
 
-  def to_gem_version(string)
-    Gem::Version.new(string.gsub(/-\w{8}$/,'').gsub(/[^\w.]+/,'.'))
-   end
-
   def latest_package_for_version(candidate_version, available_versions)
     # Latest translates into max version
     if candidate_version.to_s == "latest" || candidate_version.nil? || candidate_version.empty?
-      max_version = available_versions.keys.sort {|a,b| to_gem_version(a) <=> to_gem_version(b)}.last
+      max_version = available_versions.keys.sort.last
       available_versions[max_version]
     elsif candidate_version && ( candidate_version.include?("-") ||
                                  candidate_version.match(/[[:alpha:]]/) )
       available_versions[candidate_version]
     else
       filtered_available_versions =[]
-      filtered_available_versions = available_versions.keys.map do |v|
-        parsed_version = to_gem_version(v) rescue nil
+      filtered_available_versions = available_versions.keys.find_all do |v|
         # exclude versions such as x.y.z.beta.0 and x.y.z.rc.1
-        next if parsed_version.nil? || parsed_version.prerelease?
-        v
-      end.compact
+        !v.nil? && !v.prerelease?
+      end
 
-      parsed_candidate_version = to_gem_version(candidate_version)
+      parsed_candidate_version = OmnitruckClient::Version.new(candidate_version)
 
       # Find all of the iterations of the version matching the major, minor, tiny
       matching_versions = filtered_available_versions.find_all do |v|
-        v = to_gem_version(v)
         parsed_candidate_version.segments[0] == v.segments[0] &&
         parsed_candidate_version.segments[1] == v.segments[1] &&
         parsed_candidate_version.segments[2] == v.segments[2]
       end
 
-      if max_interation = matching_versions.sort {|a,b|
-          to_gem_version(a) <=> to_gem_version(b)}.last
+      if max_interation = matching_versions.sort.last
         available_versions[max_interation]
       end
     end
