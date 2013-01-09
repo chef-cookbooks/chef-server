@@ -17,11 +17,15 @@ require 'chef/util/file_edit'
 
 # Acquire the chef-server Omnibus package
 if node['chef-server']['package_file'].nil? || node['chef-server']['package_file'].empty?
-  # Query the Omnitruck REST service and select desired package based on
-  # the Node's platform, platform version and architecture.
-  omnibus_package = OmnitruckClient.new(node).package_for_version(node['chef-server']['version'])
+  omnibus_package = OmnitruckClient.new(node).package_for_version(node['chef-server']['version'],
+                                                        node['chef-server']['prereleases'],
+                                                        node['chef-server']['nightlies'])
   unless omnibus_package
-    raise "Could not locate chef-server package matching version #{node['chef-server']['version']} for node."
+    err_msg = "Could not locate chef-server"
+    err_msg << " pre-release" if node['chef-server']['prereleases']
+    err_msg << " nightly" if node['chef-server']['nightlies']
+    err_msg << " package matching version '#{node['chef-server']['version']}' for node."
+    raise err_msg
   end
 else
   omnibus_package = node['chef-server']['package_file']

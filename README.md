@@ -77,7 +77,7 @@ Chef 10
 Platform
 --------
 
-Chef Server Omnibus packages are built for the following platforms:
+Chef Server Omnibus packages are available for the following platforms:
 
 * CentOS 5 64-bit
 * CentOS 6 32-bit and 64-bit
@@ -88,18 +88,17 @@ Chef Server Omnibus packages are built for the following platforms:
 ATTRIBUTES
 ==========
 
-The attributes used by this cookbook are under the `chef-server`
-name space.
+The attributes used by this cookbook are under the `chef-server` name space.
 
-Attribute | Description |Type | Default
-----------|-------------|-----|--------
-api_fqdn            | Fully qualified domain name that you want to use for accessing the Web UI and API. | String | node['fqdn']
-configuration       | Configuration values to pass down to the underlying server config file (i.e. `/etc/chef-server/chef-server.rb`). | Hash | Hash.new
-package_file        | Location of the Omnibus package to install. This should not be set if you wish to pull the packages from the Omnitruck S3 bucket. | String | nil
-package_checksum    | SHA256 checksum of package referenced by `package_file`. | String | nil
-omnitruck_endpoint  | URL for the Omnitruck REST API endpoint. This value is ignored if `package_file` is set. | String | http://www.opscode.com/chef
-omnitruck_bucket    | S3 Bucket to pull Omnibus packages from. This value is ignored if `package_file` is set. | String | opscode-omnitruck
-version             | Chef Server version to install. This value is ignored if `package_file` is set. | String | :latest
+Attribute        | Description |Type | Default
+-----------------|-------------|-----|--------
+api_fqdn         | Fully qualified domain name that you want to use for accessing the Web UI and API. | String | node['fqdn']
+configuration    | Configuration values to pass down to the underlying server config file (i.e. `/etc/chef-server/chef-server.rb`). | Hash | Hash.new
+package_file     | Location of the Omnibus package to install. This should not be set if you wish to pull the packages from the Omnitruck S3 bucket. | String | nil
+package_checksum | SHA256 checksum of package referenced by `package_file`. | String | nil
+version          | Chef Server version to install. This value is ignored if `package_file` is set. | String | :latest
+prereleases      | Indicates prerelease builds should be downloaded from Omnitruck. Prerelease builds come out in the weeks leading up to a major release. Prereleases offer an early preview of the next upcoming stable release and are intended for testers and advanced users. This value is ignored if `package_file` is set. | Boolean | false
+nightlies        | Indicates nightly builds should be downloaded from Omnitruck. Nightly builds of chef-server usually come out every night, but may be less frequent if there are no changes to the code, or the CI infrastructure is unable to create a build that day. The nightly builds are intended for testing only. This value is ignored if `package_file` is set. | Boolean | false
 
 RECIPES
 ========
@@ -124,7 +123,8 @@ Omnibus package selection is done based on the following logic:
    string), the candidate package is retrieved from the Omnitruck REST
    API based on `node['chef-server']['version']` AND the node
    platform, platform_version and architecture. By default the latest package
-   is installed.
+   is installed. If you would like to download pre-release or nightly builds
+   set appropriate attribute to `true`.
 
 dev
 ---
