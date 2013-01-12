@@ -23,7 +23,7 @@ class OmnitruckClient
 
   def initialize(node)
     @platform = node[:platform_family] == "rhel" ? "el" : node[:platform]
-    @platform_version = node[:platform_version]
+    @platform_version = node[:platform_family] == "rhel" ? node[:platform_version].to_i : node[:platform_version]
     @machine_architecture = node[:kernel][:machine]
   end
 
