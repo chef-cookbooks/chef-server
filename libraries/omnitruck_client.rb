@@ -35,7 +35,10 @@ class OmnitruckClient
     url << "&v=#{version}" if version
     url << "&prerelease=#{prerelease}"
     url << "&nightlies=#{nightly}"
-    redirect_target(url)
+    Chef::Log.info("Omnitruck download-server request: #{url}")
+    target = redirect_target(url)
+    Chef::Log.info("Downloding chef-server package from: #{target}") if target
+    target
   end
 
   private
