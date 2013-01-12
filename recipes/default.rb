@@ -13,6 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+require 'resolv'
 require 'chef/util/file_edit'
 
 # Acquire the chef-server Omnibus package
@@ -88,5 +89,5 @@ ruby_block "ensure node can resolve API FQDN" do
                                "127.0.0.1 #{node['chef-server']['api_fqdn']}")
     fe.write_file
   end
-  not_if "host #{node['chef-server']['api_fqdn']}" # host resolves
+  not_if { Resolv.getaddress(node['chef-server']['api_fqdn']) rescue false } # host resolves
 end
