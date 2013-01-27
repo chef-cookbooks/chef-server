@@ -167,7 +167,7 @@ disable the webui with the following configuration:
     echo '{
       "chef-server": {
         "configuration": {
-          "chef-server-webui": {
+          "chef_server_webui": {
             "enable": false
           }
         }
