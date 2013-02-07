@@ -31,6 +31,7 @@ end
 http_request "compact chef couchDB" do
   action :post
   url "#{Chef::Config[:couchdb_url]}/chef/_compact"
+  headers("Content-Type" => "application/json")
   only_if do
     begin
       open("#{Chef::Config[:couchdb_url]}/chef")
@@ -46,6 +47,7 @@ end
   http_request "compact chef couchDB view #{view}" do
     action :post
     url "#{Chef::Config[:couchdb_url]}/chef/_compact/#{view}"
+    headers("Content-Type" => "application/json")
     only_if do
       begin
         open("#{Chef::Config[:couchdb_url]}/chef/_design/#{view}/_info")
