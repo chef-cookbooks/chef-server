@@ -21,6 +21,13 @@
 
 require 'open-uri'
 
+if File.exist?("/etc/chef/server.rb")
+  # this gets the server vars loaded. we don't want to break what's in
+  # client.rb so we load that afterwards.
+  Chef::Config.from_file("/etc/chef/server.rb")
+  Chef::Config.from_file("/etc/chef/client.rb")
+end
+
 http_request "compact chef couchDB" do
   action :post
   url "#{Chef::Config[:couchdb_url]}/chef/_compact"
