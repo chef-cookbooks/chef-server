@@ -55,3 +55,6 @@ default['chef_server']['webui_enabled']   = false
 default['chef_server']['solr_heap_size']  = "256M"
 default['chef_server']['validation_client_name'] = "chef-validator"
 default['chef_server']['expander_nodes'] = 1
+
+default['chef_server']['solr']['ip_address'] = "127.0.0.1"
+default['chef_server']['solr']['port']       = "8983"

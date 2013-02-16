@@ -156,6 +156,14 @@ execute "chef-solr-installer" do
   not_if { ::File.exists?("#{node['chef_server']['path']}/solr/home") }
 end
 
+# Sets up solr under jetty to bind on the node['chef_server']['solr']['ip_address'] attribute
+template "#{node['chef_server']['path']}/solr/jetty/etc/jetty.xml" do
+  source "jetty.xml.erb"
+  mode 00644
+  variables(node['chef_server']['solr'].to_hash)
+  notifies :restart, "service[chef-solr]"
+end
+
 case node['chef_server']['init_style']
 when "runit"
 
@@ -216,7 +224,7 @@ when "init"
     end
 
     service svc do
-      supports :status => true
+      supports :status => true, :restart => true
       action [ :enable, :start ]
       if platform_family?("debian")
         priority("2 3 4 5" => [ "start", "19" ], "0 1 6" => [ "stop", "81" ])
