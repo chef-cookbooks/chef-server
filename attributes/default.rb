@@ -29,4 +29,22 @@ default['chef-server']['api_fqdn'] = node['fqdn']
 # For a complete list see:
 # https://github.com/opscode/omnibus-chef/blob/master/files/chef-server-cookbooks/chef-server/attributes/default.rb
 #
+# Example:
+#
+# In a recipe:
+#
+#     node.override['chef-server']['configuration']['nginx']['ssl_port'] = 4433
+#
+# In a role:
+#
+#     override_attributes(
+#       'chef-server' => {
+#         'configuration' => {
+#           'nginx' => {
+#             'ssl_port' => 4433
+#           }
+#         }
+#       }
+#     )
+#
 default['chef-server']['configuration'] = Hash.new
