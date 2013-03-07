@@ -207,10 +207,12 @@ for a more in depth explanation of available commands.
 The running Chef-Server components are accessible from the host machine
 using the following URLs:
 
-* Web UI: https://33.33.33.10/
-* Version Manifest: https://33.33.33.10/version
+* Web UI: https://33.33.33.50/ (Note: Attempts to hit via straight http will be redirected to the Vagrant guest's internal hostname)
+* Version Manifest: https://33.33.33.50/version
 * Chef Server API (routing requires `X-OPS-USERID` HTTP header being properly
-set): https://33.33.33.10/
+set): https://33.33.33.50/
+
+*Note: It can be helpful to use the host workstation's /etc/hosts file to map 33.33.33.50 to chef-server-berkshelf.*
 
 ## Contribute to and Hack on Chef Server (including Erchef)
 
