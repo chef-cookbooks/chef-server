@@ -5,8 +5,13 @@ topology "standalone"
 api_fqdn "<%= node['chef-server']['api_fqdn'] %>"
 
 <% node['chef-server']['configuration'].each_pair do |component, tunables| -%>
+<% case tunables -%>
+<% when Hash -%>
 <% tunables.each_pair do |name, value| -%>
 <% value = %Q["#{value}"] if value.kind_of?(String) -%>
 <%= "#{component.gsub("-","_")}['#{name}'] = #{value}" %>
+<% end -%>
+<% when String -%>
+<%= component.gsub('-', '_') %> "<%= tunables %>"
 <% end -%>
 <% end -%>
