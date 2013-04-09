@@ -184,35 +184,50 @@ You would then pass this file to the initial chef-solo command:
 We <3 the wonderful open-source tools
 [Berkshelf](http://berkshelf.com/) and
 [Vagrant](http://vagrantup.com/). You can take Chef Server for a spin
-using the Berksfile and Vagrantfile shipped along side this cookbook.
-The only requirements for standing up a virtualized Chef Server are
-Ruby, Rubygems, and VirtualBox.
+using the Berksfile and Vagrantfile that ship alongside this cookbook.
+The only requirements for standing up a virtualized Chef Server are:
 
-    gem install bundler --no-ri --no-rdoc
-    git clone git://github.com/opscode-cookbooks/chef-server.git
-    cd chef-server
-    bundle install
-    bundle exec vagrant up
+* VirtualBox - native packages exist for most platforms and can be downloaded
+from the [VirtualBox downloads page](https://www.virtualbox.org/wiki/Downloads).
+* Vagrant 1.1+ - native packages exist for most platforms and can be downloaded
+from the [Vagrant downloads page](http://downloads.vagrantup.com/).
 
-If you need help installing any of the prerequisites take a look at
-Jamie Winsor's excellent
-[blog post](http://vialstudios.com/guide-authoring-cookbooks.html) on
-the subject.
+The [berkshelf-vagrant](https://github.com/RiotGames/berkshelf-vagrant) and
+[vagrant-omnibus](https://github.com/schisamo/vagrant-omnibus) Vagrant plugins
+are also required and can be installed easily with the following commands:
+
+```shell
+$ vagrant plugin install berkshelf-vagrant
+$ vagrant plugin install vagrant-omnibus
+```
+
+Once the pre-requisites are installed you can start the virtualized environment
+with the following command:
+
+```shell
+$ vagrant up
+```
+
+Although things have only been tested with Vagrant's `virtualbox` provider
+everything should work with other providers like `vmware_fusion` or `ec2`.
 
 You can easily SSH into the running VM using the `vagrant ssh` command.
 The VM can easily be stopped and deleted with the `vagrant destroy`
-command. Please see the official [Vagrant documentation](http://vagrantup.com/v1/docs/commands.html)
-for a more in depth explanation of available commands.
+command. Please see the official
+[Vagrant documentation](http://vagrantup.com/v1/docs/commands.html) for a more
+in depth explanation of available commands.
 
 The running Chef-Server components are accessible from the host machine
 using the following URLs:
 
-* Web UI: https://33.33.33.50/ (Note: Attempts to hit via straight http will be redirected to the Vagrant guest's internal hostname)
+* Web UI: https://33.33.33.50/ (Note: Attempts to hit via straight http will be
+redirected to the Vagrant guest's internal hostname)
 * Version Manifest: https://33.33.33.50/version
 * Chef Server API (routing requires `X-OPS-USERID` HTTP header being properly
 set): https://33.33.33.50/
 
-*Note: It can be helpful to use the host workstation's /etc/hosts file to map 33.33.33.50 to chef-server-berkshelf.*
+*Note: It can be helpful to use the host workstation's /etc/hosts file to map
+33.33.33.50 to chef-server-berkshelf.*
 
 ## Contribute to and Hack on Chef Server (including Erchef)
 
