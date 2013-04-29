@@ -39,8 +39,12 @@ package_local_path = "#{Chef::Config[:file_cache_path]}/#{package_name}"
 if ::URI.parse(omnibus_package).absolute?
   remote_file package_local_path do
     source omnibus_package
-    checksum node['chef-server']['package_checksum'] if node['chef-server']['package_checksum']
-    action :create
+    if node['chef-server']['package_checksum']
+      checksum node['chef-server']['package_checksum']
+      action :create
+    else
+      action :create_if_missing
+    end
   end
 # else we assume it's on the local machine
 else
