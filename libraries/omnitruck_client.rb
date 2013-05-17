@@ -22,9 +22,9 @@ class OmnitruckClient
   attr_reader :platform, :platform_version, :machine_architecture
 
   def initialize(node)
-    @platform = node[:platform_family] == "rhel" ? "el" : node[:platform]
-    @platform_version = node[:platform_family] == "rhel" ? node[:platform_version].to_i : node[:platform_version]
-    @machine_architecture = node[:kernel][:machine]
+    @platform = node['platform_family'] == "rhel" ? "el" : node['platform']
+    @platform_version = node['platform_family'] == "rhel" ? node['platform_version'].to_i : node['platform_version']
+    @machine_architecture = node['kernel']['machine']
   end
 
   def package_for_version(version, prerelease=false, nightly=false)
