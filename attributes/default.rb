@@ -27,7 +27,7 @@ default['chef-server']['api_fqdn'] = node['fqdn']
 # Chef Server Tunables
 #
 # For a complete list see:
-# https://github.com/opscode/omnibus-chef/blob/master/files/chef-server-cookbooks/chef-server/attributes/default.rb
+# https://github.com/opscode/omnibus-chef-server/blob/master/files/chef-server-cookbooks/chef-server/attributes/default.rb
 #
 # Example:
 #
