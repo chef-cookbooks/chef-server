@@ -30,7 +30,8 @@ Chef Server is configured through the
 configurations do not require custom configuration and can use the
 default values for everything.
 
-TODO - point to configuration options
+You can read all about Chef Server's
+[configuration options](http://docs.opscode.com/config_rb_chef_server.html).
 
 ### Applying configuration changes
 
