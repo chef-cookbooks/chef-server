@@ -11,3 +11,4 @@ Gemfile.lock
 *.un~
 /cookbooks
 /bin
+.kitchen
