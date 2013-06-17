@@ -1,3 +1,8 @@
+## v2.0.0:
+
+* Complete re-write for Chef Server 11+. Chef Server is now installed using 
+  "fat" Omnibus package.
+
 ## v1.1.0:
 
 * [COOK-1637] - Directory creation in chef-server should be recursive
