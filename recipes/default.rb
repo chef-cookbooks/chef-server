@@ -52,7 +52,7 @@ else
 end
 
 # install the platform package
-package package_name do
+package package_name do # ignore ~FC009 known bug in food critic causes this to trigger see Foodcritic Issue #137
   source package_local_path
   provider case node["platform_family"]
            when "debian"; Chef::Provider::Package::Dpkg
