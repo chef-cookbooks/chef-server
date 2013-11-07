@@ -16,6 +16,7 @@
 #
 
 require 'uri'
+require 'ostruct'
 
 class OmnitruckClient
 
@@ -45,8 +46,12 @@ class OmnitruckClient
 
   def redirect_target(url)
     url = URI.parse(url)
-    http = Net::HTTP.new(url.host, url.port)
-    if url.scheme == "https"
+    if url.scheme == "http"
+      proxy = ENV['http_proxy'] ? URI.parse(ENV['http_proxy']) : OpenStruct.new
+      http = Net::HTTP::Proxy(proxy.host, proxy.port).new(url.host, url.port)
+    elsif url.scheme == "https"
+      proxy = ENV['https_proxy'] ? URI.parse(ENV['https_proxy']) : OpenStruct.new
+      http = Net::HTTP::Proxy(proxy.host, proxy.port).new(url.host, url.port)
       http.use_ssl = true
       http.verify_mode = OpenSSL::SSL::VERIFY_NONE
     end
