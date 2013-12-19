@@ -61,6 +61,7 @@ package package_name do # ignore ~FC009 known bug in food critic causes this to 
             raise RuntimeError("I don't know how to install chef-server packages for platform family '#{node["platform_family"]}'!")
            end
   action :install
+  notifies :run, "execute[reconfigure-chef-server]"
 end
 
 # create the chef-server etc directory
