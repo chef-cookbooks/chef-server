@@ -1,6 +1,11 @@
 chef-server cookbook README
 ==========================
 
+v2.0.1
+------
+Documentation update to reflect Vagrant version dependency
+
+
 v2.0.0
 ------
 - Complete re-write for Chef Server 11+. Chef Server is now installed
