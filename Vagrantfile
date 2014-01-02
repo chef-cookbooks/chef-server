@@ -15,7 +15,7 @@ Vagrant.configure('2') do |config|
   end
 
   # Detects vagrant-omnibus plugin
-  if Vagrant.has_plugin?('Omnibus')
+  if Vagrant.has_plugin?('vagrant-omnibus')
     puts 'INFO:  Vagrant-omnibus plugin detected.'
     config.omnibus.chef_version = :latest
   else
