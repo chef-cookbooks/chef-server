@@ -17,26 +17,26 @@
 
 require 'mixlib/shellout'
 
+# DevHelper
 module DevHelper
-
   def self.omnibus_path
-    "/opt/chef-server/bin:/opt/chef-server/embedded/bin:/opt/chef-server/embedded/jre/bin"
+    '/opt/chef-server/bin:/opt/chef-server/embedded/bin:/opt/chef-server/embedded/jre/bin'
   end
 
   def self.code_root
-    "/opt/chef-server-dev/code"
+    '/opt/chef-server-dev/code'
   end
 
   def self.backup_root
-    "/opt/chef-server-dev/backup"
+    '/opt/chef-server-dev/backup'
   end
 
   def self.omnibus_service_root
-    "/opt/chef-server/embedded/service"
+    '/opt/chef-server/embedded/service'
   end
 
+  # Project
   class Project
-
     attr_accessor :name, :options
     attr_accessor :checkout_path, :omnibus_path
     attr_accessor :build_command, :preserved_paths
@@ -61,16 +61,16 @@ module DevHelper
     private
 
     def build
-      if build_command
-        shell_out(options[:build_command], :cwd => checkout_path)
-      end
+      shell_out(options[:build_command], :cwd => checkout_path) if build_command
     end
 
     def link
       if File.exists?(omnibus_path) && !File.symlink?(omnibus_path)
-        release_path = options.key?(:release_path) ?
-                          File.join(checkout_path, options[:release_path]) :
-                          checkout_path
+        if options.key?(:release_path)
+          release_path = File.join(checkout_path, options[:release_path])
+        else
+          release_path = checkout_path
+        end
         FileUtils.mv(omnibus_path, DevHelper.backup_root)
         FileUtils.ln_s(release_path, omnibus_path)
       end
@@ -82,15 +82,14 @@ module DevHelper
         dest_path = File.join(omnibus_path, path)
         if File.exists?(backup_path)
           FileUtils.mkdir_p(File.dirname(dest_path))
-          FileUtils.cp_r(backup_path, dest_path, {:remove_destination => true,
-                                                  :preserve => true})
+          FileUtils.cp_r(backup_path, dest_path,  :remove_destination => true, :preserve => true)
         end
       end
     end
 
-    def shell_out(command, options={})
+    def shell_out(command, options = {})
       default_opts = {
-        :environment => {'PATH' => "#{DevHelper.omnibus_path}:#{ENV['PATH']}"},
+        :environment => { 'PATH' => "#{DevHelper.omnibus_path}:#{ENV['PATH']}" },
         :live_stream => STDOUT
       }
       c = Mixlib::ShellOut.new(command, default_opts.merge(options))

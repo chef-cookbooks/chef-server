@@ -17,18 +17,26 @@
 
 require 'uri'
 
+# OmnitruckClient
 class OmnitruckClient
-
   attr_reader :platform, :platform_version, :machine_architecture
 
   def initialize(node)
-    @platform = node['platform_family'] == "rhel" ? "el" : node['platform']
-    @platform_version = node['platform_family'] == "rhel" ? node['platform_version'].to_i : node['platform_version']
+    @platform = node['platform_family'] == 'rhel' ? 'el' : node['platform']
+    if node['platform_family'] == 'rhel'
+      if node['platform'] == 'amazon'
+        @platform_version = '6'
+      else
+        @platform_version = node['platform_version'].to_i
+      end
+    else
+      @platform_version = node['platform_version']
+    end
     @machine_architecture = node['kernel']['machine']
   end
 
-  def package_for_version(version, prerelease=false, nightly=false)
-    url = "http://www.opscode.com/chef/download-server"
+  def package_for_version(version, prerelease = false, nightly = false)
+    url = 'http://www.opscode.com/chef/download-server'
     url << "?p=#{platform}"
     url << "&pv=#{platform_version}"
     url << "&m=#{machine_architecture}"
@@ -46,7 +54,7 @@ class OmnitruckClient
   def redirect_target(url)
     url = URI.parse(url)
     http = Net::HTTP.new(url.host, url.port)
-    if url.scheme == "https"
+    if url.scheme == 'https'
       http.use_ssl = true
       http.verify_mode = OpenSSL::SSL::VERIFY_NONE
     end
@@ -58,5 +66,4 @@ class OmnitruckClient
       nil
     end
   end
-
 end

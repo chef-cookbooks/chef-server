@@ -1,11 +1,13 @@
-name              "chef-server"
-maintainer        "Opscode, Inc."
-maintainer_email  "cookbooks@opscode.com"
-license           "Apache 2.0"
-description       "Installs and configures Chef Server"
+name              'chef-server'
+maintainer        'Opscode, Inc.'
+maintainer_email  'cookbooks@opscode.com'
+license           'Apache 2.0'
+description       'Installs and configures Chef Server'
 long_description  IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version           "2.0.2"
+version           '2.0.2'
 
-%w{ ubuntu redhat centos fedora amazon scientific oracle }.each do |os|
-  supports os
-end
+supports 'centos'
+supports 'amazon'
+supports 'ubuntu'
+
+depends 'git'

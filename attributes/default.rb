@@ -47,4 +47,4 @@ default['chef-server']['api_fqdn'] = node['fqdn']
 #       }
 #     )
 #
-default['chef-server']['configuration'] = Hash.new
+default['chef-server']['configuration'] = {}

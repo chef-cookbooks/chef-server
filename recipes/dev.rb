@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-include_recipe "git"
+include_recipe 'git'
 
 repos = {
   'chef_authn' => {},
@@ -24,34 +24,38 @@ repos = {
   'chef_wm' => {},
   'erchef' => {
     :service_name => 'erchef',
-    :preserved_paths => ["etc/app.config",
-                         "log",
-                         "bin/erchef"],
-    :build_command => "rebar get-deps && make clean relclean devrel",
-    :release_path => "rel/erchef"
+    :preserved_paths => [
+      'etc/app.config',
+      'log',
+      'bin/erchef'
+    ],
+    :build_command => 'rebar get-deps && make clean relclean devrel',
+    :release_path => 'rel/erchef'
   },
   'chef-server-webui' => {
     :service_name => 'chef-server-webui',
-    :preserved_paths => ["config/environments/chefserver.rb",
-                         "tmp",
-                         "config/initializers/secret_token.rb",
-                         "config/initializers/session_store.rb",
-                         "config.ru"],
-    :build_command => "bundle install --deployment --without development"
+    :preserved_paths => [
+      'config/environments/chefserver.rb',
+      'tmp',
+      'config/initializers/secret_token.rb',
+      'config/initializers/session_store.rb',
+      'config.ru'
+    ],
+    :build_command => 'bundle install --deployment --without development'
   },
   'omnibus-chef' => {
-    :omnibus_path => "/opt/chef-server/embedded/cookbooks",
-    :release_path => "files/chef-server-cookbooks"
+    :omnibus_path => '/opt/chef-server/embedded/cookbooks',
+    :release_path => 'files/chef-server-cookbooks'
   },
   'chef-pedant' => {
-    :build_command => "bundle install"
+    :build_command => 'bundle install'
   }
 }
 
-[ DevHelper.code_root, DevHelper.backup_root].each do |dir|
+[DevHelper.code_root, DevHelper.backup_root].each do |dir|
   directory dir do
-    owner "root"
-    group "root"
+    owner 'root'
+    group 'root'
     recursive true
     action :create
   end
@@ -63,7 +67,7 @@ repos.each do |project, options|
 
   git ::File.join(DevHelper.code_root, project) do
     repository "git://github.com/opscode/#{github_name}"
-    reference "master"
+    reference 'master'
     action :checkout
   end
 
@@ -76,7 +80,7 @@ repos.each do |project, options|
 end
 
 # Ensure the /opt/chef-server bin/ dirs is first in our PATH
-file "/etc/profile.d/omnibus-embedded.sh" do
+file '/etc/profile.d/omnibus-embedded.sh' do
   content "export PATH=\"#{DevHelper.omnibus_path}:$PATH\""
   action :create
 end
