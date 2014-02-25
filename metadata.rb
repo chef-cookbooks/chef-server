@@ -10,4 +10,4 @@ supports 'centos'
 supports 'amazon'
 supports 'ubuntu'
 
-depends 'git'
+suggests 'git'
