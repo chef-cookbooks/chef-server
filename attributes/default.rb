@@ -21,6 +21,7 @@ default['chef-server']['prereleases'] = false
 default['chef-server']['nightlies'] = false
 default['chef-server']['package_file'] = nil
 default['chef-server']['package_checksum'] = nil
+default['chef-server']['package_options'] = nil
 default['chef-server']['api_fqdn'] = node['fqdn']
 
 #

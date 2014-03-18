@@ -70,6 +70,7 @@ package package_name do # ignore ~FC009 known bug in food critic causes this to 
            else
              fail RuntimeError("I don't know how to install chef-server packages for platform family '#{node["platform_family"]}'!")
            end
+  options node['chef-server']['package_options']
   action :install
   notifies :run, 'execute[reconfigure-chef-server]'
 end
