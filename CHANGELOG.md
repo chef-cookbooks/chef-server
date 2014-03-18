@@ -1,6 +1,11 @@
 chef-server cookbook README
 ==========================
 
+v2.1.2 (2014-03-18)
+-------------------
+- [COOK-4386] - 'package_options' attribute added
+
+
 v2.1.0 (2014-02-24)
 -------------------
 - Updating test harness, adding amazon support to omnitruck library
