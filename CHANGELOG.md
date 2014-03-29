@@ -1,6 +1,11 @@
 chef-server cookbook README
 ==========================
 
+v2.1.4 (2014-03-29)
+-------------------
+- Dropping dependency on git
+
+
 v2.1.2 (2014-03-18)
 -------------------
 - [COOK-4386] - 'package_options' attribute added
