@@ -6,8 +6,12 @@ provisioner:
   require_chef_omnibus: latest
 
 platforms:
+- name: ubuntu-10.04
+- name: ubuntu-10.10
 - name: ubuntu-12.04
+- name: ubuntu-12.10
 - name: ubuntu-13.04
+- name: ubuntu-13.10
 - name: centos-6.5
 - name: centos-5.10
 
