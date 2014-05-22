@@ -20,10 +20,10 @@ platforms:
     ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
     ssh_key: <%= ENV['DIGITAL_OCEAN_SSH_KEY_PATH'] %>
 
-- name: centos-6.4
+- name: centos-6.5
   driver_plugin: digitalocean
   driver_config:
-    image_id: 562354
+    image_id: 3448641
     flavor_id: 63
     region_id: 4
     ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
@@ -50,7 +50,7 @@ platforms:
 - name: ubuntu-1204
   driver_plugin: digitalocean
   driver_config:
-    image_id: 1505447
+    image_id: 3101045
     flavor_id: 63
     region_id: 4
     ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
