@@ -1,6 +1,12 @@
 chef-server cookbook README
 ==========================
 
+v2.1.6 (2014-05-22)
+-------------------
+
+* COOK-4660 - Adds a OS version and image updates to the testing harness
+
+
 v2.1.4 (2014-03-29)
 -------------------
 - Dropping dependency on git
