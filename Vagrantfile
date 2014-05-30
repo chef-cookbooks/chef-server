@@ -42,7 +42,7 @@ Vagrant.configure('2') do |config|
   # config.vm.box = "canonical-ubuntu-12.04"
   # config.vm.box_url = "http://cloud-images.ubuntu.com/vagrant/precise/current/precise-server-cloudimg-amd64-vagrant-disk1.box"
   # config.vm.box = "opscode-centos-6.5"
-  # config.vm.box_url = "https://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-6.5_provisionerless.box"
+  # config.vm.box_url = "http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-6.5_chef-provisionerless.box"
 
   config.vm.network :private_network, :ip => '33.33.33.50'
 
