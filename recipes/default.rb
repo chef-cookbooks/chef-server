@@ -98,12 +98,14 @@ execute 'reconfigure-chef-server' do
   action :nothing
 end
 
-ruby_block 'ensure node can resolve API FQDN' do
-  block do
-    fe = Chef::Util::FileEdit.new('/etc/hosts')
-    fe.insert_line_if_no_match(/#{node['chef-server']['api_fqdn']}/,
-      "127.0.0.1 #{node['chef-server']['api_fqdn']}")
-    fe.write_file
+unless node['chef-server']['api_fqdn'].nil? || node['chef-server']['api_fqdn'].empty?
+  ruby_block 'ensure node can resolve API FQDN' do
+    block do
+      fe = Chef::Util::FileEdit.new('/etc/hosts')
+      fe.insert_line_if_no_match(/#{node['chef-server']['api_fqdn']}/,
+        "127.0.0.1 #{node['chef-server']['api_fqdn']}")
+      fe.write_file
+    end
+    not_if { Resolv.getaddress(node['chef-server']['api_fqdn']) rescue false } # host resolves
   end
-  not_if { Resolv.getaddress(node['chef-server']['api_fqdn']) rescue false } # host resolves
 end

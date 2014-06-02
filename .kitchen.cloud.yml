@@ -66,3 +66,9 @@ suites:
   attributes:
     machine_fqdn: chef.computers.biz
     fqdn_as_hostname: true
+- name: no-fqnd
+  run_list:
+  - recipe[chef-server::default]
+  attributes:
+    chef-server:
+      api_fqdn: ""

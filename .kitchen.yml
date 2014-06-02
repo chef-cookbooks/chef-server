@@ -20,3 +20,14 @@ suites:
   run_list:
   - recipe[chef-server]
   attributes: {}
+- name: no-fqnd
+  run_list:
+  - recipe[chef-server]
+  driver:
+    customize:
+      memory: 1024
+    network:
+      - ['private_network', {ip: '192.168.243.2'}]
+  attributes:
+    chef-server:
+      api_fqdn: ""

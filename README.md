@@ -93,7 +93,7 @@ The attributes used by this cookbook are under the `chef-server` name space.
 
 Attribute        | Description |Type | Default
 -----------------|-------------|-----|--------
-api_fqdn         | Fully qualified domain name that you want to use for accessing the Web UI and API. | String | node['fqdn']
+api_fqdn         | Fully qualified domain name that you want to use for accessing the Web UI and API. If set to `nil` or empty string (`""`), the IP address will be used as hostname. | String | node['fqdn']
 configuration    | Configuration values to pass down to the underlying server config file (i.e. `/etc/chef-server/chef-server.rb`). | Hash | Hash.new
 package_file     | Location of the Omnibus package to install. This should not be set if you wish to pull the packages from the Omnitruck S3 bucket. | String | nil
 package_checksum | SHA256 checksum of package referenced by `package_file`. | String | nil

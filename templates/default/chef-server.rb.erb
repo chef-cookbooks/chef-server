@@ -2,7 +2,9 @@
 
 topology "standalone"
 
+<% unless node['chef-server']['api_fqdn'].nil? || node['chef-server']['api_fqdn'].empty? -%>
 api_fqdn "<%= node['chef-server']['api_fqdn'] %>"
+<% end -%>
 
 <% node['chef-server']['configuration'].each_pair do |component, tunables| -%>
 <% case tunables -%>
