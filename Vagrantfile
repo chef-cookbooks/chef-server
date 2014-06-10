@@ -24,10 +24,11 @@ Vagrant.configure('2') do |config|
   end
 
   # Detects vagrant-berkshelf plugin
-  if Vagrant.has_plugin?('berkshelf')
+  if Vagrant.has_plugin?('vagrant-berkshelf')
     # The path to the Berksfile to use with Vagrant Berkshelf
     puts 'INFO:  Vagrant-berkshelf plugin detected.'
     config.berkshelf.berksfile_path = './Berksfile'
+    config.berkshelf.enabled = true
   else
     puts "FATAL: Vagrant-berkshelf plugin not detected. Please install the plugin with\n       'vagrant plugin install vagrant-berkshelf' from any other directory\n       before continuing."
     exit
@@ -36,7 +37,7 @@ Vagrant.configure('2') do |config|
   config.vm.hostname = 'chef-server'
 
   config.vm.box = 'opscode-ubuntu-12.04'
-  config.vm.box_url = 'https://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-12.04_provisionerless.box'
+  config.vm.box_url = 'https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_ubuntu-12.04_provisionerless.box'
 
   # Alternate images that are also suitable for use with this recipe
   # config.vm.box = "canonical-ubuntu-12.04"

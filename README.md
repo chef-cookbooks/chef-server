@@ -190,7 +190,7 @@ The only requirements for standing up a virtualized Chef Server are:
 
 * VirtualBox - native packages exist for most platforms and can be downloaded
 from the [VirtualBox downloads page](https://www.virtualbox.org/wiki/Downloads).
-* Vagrant 1.3.2+ - native packages exist for most platforms and can be downloaded
+* Vagrant 1.6+ - native packages exist for most platforms and can be downloaded
 from the [Vagrant downloads page](http://downloads.vagrantup.com/).
 
 The [vagrant-berkshelf](https://github.com/RiotGames/vagrant-berkshelf) and
@@ -198,7 +198,7 @@ The [vagrant-berkshelf](https://github.com/RiotGames/vagrant-berkshelf) and
 are also required and can be installed easily with the following commands:
 
 ```shell
-$ vagrant plugin install vagrant-berkshelf
+$ vagrant plugin install vagrant-berkshelf --plugin-version '2.0.1'
 $ vagrant plugin install vagrant-omnibus
 ```
 
