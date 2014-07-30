@@ -61,7 +61,7 @@ class OmnitruckClient
     response = http.get(url.request_uri, {})
     case response
     when Net::HTTPSuccess
-      response.body.scan(/^url\s(.*?)\s/).shift
+      response.body.scan(/^url\s(.*?)\s/).join
     else
       nil
     end
