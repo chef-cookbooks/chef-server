@@ -56,12 +56,12 @@ class OmnitruckClient
     http = Net::HTTP.new(url.host, url.port)
     if url.scheme == 'https'
       http.use_ssl = true
-      http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+      #http.verify_mode = OpenSSL::SSL::VERIFY_NONE
     end
     response = http.get(url.request_uri, {})
     case response
-    when Net::HTTPRedirection
-      response['location']
+    when Net::HTTPSuccess
+      response.body.scan(/^url\s(.*?)\s/).shift
     else
       nil
     end
