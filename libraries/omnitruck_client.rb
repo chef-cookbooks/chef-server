@@ -36,13 +36,13 @@ class OmnitruckClient
   end
 
   def package_for_version(version, prerelease = false, nightly = false)
-    url = 'http://www.opscode.com/chef/download-server'
+    url = 'http://www.opscode.com/chef/metadata-server'
     url << "?p=#{platform}"
-    url << "&pv=#{platform_version}"
-    url << "&m=#{machine_architecture}"
-    url << "&v=#{version}" if version
     url << "&prerelease=#{prerelease}"
     url << "&nightlies=#{nightly}"
+    url << "&pv=#{platform_version}"
+    url << "&m=#{machine_architecture}"
+    url << "&v=#{version}" if version && version != :latest
     Chef::Log.info("Omnitruck download-server request: #{url}")
     target = redirect_target(url)
     Chef::Log.info("Downloading chef-server package from: #{target}") if target
