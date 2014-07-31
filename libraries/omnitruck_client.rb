@@ -36,11 +36,11 @@ class OmnitruckClient
   end
 
   def package_for_version(version, prerelease = false, nightly = false)
-    url = 'http://www.opscode.com/chef/download-server'
+    url = 'https://www.opscode.com/chef/metadata-server'
     url << "?p=#{platform}"
     url << "&pv=#{platform_version}"
     url << "&m=#{machine_architecture}"
-    url << "&v=#{version}" if version
+    url << "&v=#{version}" if version && version != :latest
     url << "&prerelease=#{prerelease}"
     url << "&nightlies=#{nightly}"
     Chef::Log.info("Omnitruck download-server request: #{url}")
@@ -59,11 +59,8 @@ class OmnitruckClient
       http.verify_mode = OpenSSL::SSL::VERIFY_NONE
     end
     response = http.get(url.request_uri, {})
-    case response
-    when Net::HTTPRedirection
-      response['location']
-    else
-      nil
-    end
+    url = response.body.lines.select { |l| l =~ /^url\s/ }.shift
+    url = url.split(/\s/, 2).last.strip
+    return url
   end
 end
