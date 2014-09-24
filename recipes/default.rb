@@ -34,7 +34,12 @@ else
   omnibus_package = node['chef-server']['package_file']
 end
 
-package_name = ::File.basename(omnibus_package)
+package_name = if omnibus_package['filename=']
+                 omnibus_package[/filename=(.*)/, 1]
+               else
+                 ::File.basename(omnibus_package)
+               end
+
 package_local_path = "#{Chef::Config[:file_cache_path]}/#{package_name}"
 
 # Ensure :file_cache_path exists
