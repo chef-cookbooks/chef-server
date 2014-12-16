@@ -16,6 +16,29 @@
 require 'resolv'
 require 'chef/util/file_edit'
 
+# reconfigure the installation
+execute 'reconfigure-chef-server' do
+  command 'chef-server-ctl reconfigure'
+  action :nothing
+end
+
+# create the chef-server etc directory
+directory '/etc/chef-server' do
+  owner 'root'
+  group 'root'
+  recursive true
+  action :create
+end
+
+# create the initial chef-server config file
+template '/etc/chef-server/chef-server.rb' do
+  source 'chef-server.rb.erb'
+  owner 'root'
+  group 'root'
+  action :create
+  notifies :run, 'execute[reconfigure-chef-server]'
+end
+
 # Acquire the chef-server Omnibus package
 if node['chef-server']['package_file'].nil? || node['chef-server']['package_file'].empty?
   omnibus_package = OmnitruckClient.new(node).package_for_version(
@@ -73,29 +96,6 @@ package package_name do # ignore ~FC009 known bug in food critic causes this to 
   options node['chef-server']['package_options']
   action :install
   notifies :run, 'execute[reconfigure-chef-server]'
-end
-
-# create the chef-server etc directory
-directory '/etc/chef-server' do
-  owner 'root'
-  group 'root'
-  recursive true
-  action :create
-end
-
-# create the initial chef-server config file
-template '/etc/chef-server/chef-server.rb' do
-  source 'chef-server.rb.erb'
-  owner 'root'
-  group 'root'
-  action :create
-  notifies :run, 'execute[reconfigure-chef-server]', :immediately
-end
-
-# reconfigure the installation
-execute 'reconfigure-chef-server' do
-  command 'chef-server-ctl reconfigure'
-  action :nothing
 end
 
 ruby_block 'ensure node can resolve API FQDN' do
