@@ -31,13 +31,17 @@ directory '/etc/chef-server' do
 end
 
 # create the initial chef-server config file
-template '/etc/chef-server/chef-server.rb' do
-  source 'chef-server.rb.erb'
-  owner 'root'
-  group 'root'
-  action :create
-  notifies :run, 'execute[reconfigure-chef-server]'
-end
+# This is completely broken.  I don't know why
+# Chef can't find the template, which definitely exists in the cookbook.
+# See gist for details: https://gist.github.com/scarolan/a657ae569264c2d31983
+
+#template '/etc/chef-server/chef-server.rb' do
+#  source 'chef-server.rb.erb'
+#  owner 'root'
+#  group 'root'
+#  action :create
+#  notifies :run, 'execute[reconfigure-chef-server]'
+#end
 
 # Acquire the chef-server Omnibus package
 if node['chef-server']['package_file'].nil? || node['chef-server']['package_file'].empty?
