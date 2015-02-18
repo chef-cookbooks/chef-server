@@ -31,7 +31,7 @@ configurations do not require custom configuration and can use the
 default values for everything.
 
 You can read all about Chef Server's
-[configuration options](http://docs.opscode.com/config_rb_chef_server.html).
+[configuration options](http://docs.chef.io/config_rb_chef_server.html).
 
 ### Applying configuration changes
 
@@ -151,11 +151,11 @@ chef-solo (via the chef-client Omnibus packages) and bootstrap the
 system using this cookbook:
 
     # install chef-solo
-    curl -L https://www.opscode.com/chef/install.sh | sudo bash
+    curl -L https://www.chef.io/chef/install.sh | sudo bash
     # create required bootstrap dirs/files
     mkdir -p /var/chef/cache /var/chef/cookbooks/chef-server
     # pull down this chef-server cookbook
-    wget -qO- https://github.com/opscode-cookbooks/chef-server/archive/master.tar.gz | tar xvzC /var/chef/cookbooks/chef-server --strip-components=1
+    wget -qO- https://github.com/chef-cookbooks/chef-server/archive/master.tar.gz | tar xvzC /var/chef/cookbooks/chef-server --strip-components=1
     # GO GO GO!!!
     chef-solo -o 'recipe[chef-server::default]'
 
@@ -242,9 +242,9 @@ value in the `Vagrantfile` to include an additional
 LICENSE AND AUTHORS
 ===================
 
-* Author: Seth Chisamore <schisamo@opscode.com>
+* Author: Seth Chisamore <schisamo@chef.io>
 
-Copyright 2012, Opscode, Inc
+Copyright 2012, Chef Software, Inc
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

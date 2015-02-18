@@ -2,7 +2,7 @@
 # Cookbook Name:: chef-server
 # Attributes:: default
 #
-# Copyright:: Copyright (c) 2012 Opscode, Inc.
+# Copyright:: Copyright (c) 2012 Chef Software, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ default['chef-server']['api_fqdn'] = node['fqdn']
 # Chef Server Tunables
 #
 # For a complete list see:
-# https://github.com/opscode/omnibus-chef-server/blob/master/files/chef-server-cookbooks/chef-server/attributes/default.rb
+# https://github.com/chef/omnibus-chef-server/blob/master/files/chef-server-cookbooks/chef-server/attributes/default.rb
 #
 # Example:
 #

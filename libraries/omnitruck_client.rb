@@ -1,5 +1,5 @@
 #
-# Copyright:: Copyright (c) 2012 Opscode, Inc.
+# Copyright:: Copyright (c) 2012 Chef Software, Inc.
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -36,7 +36,7 @@ class OmnitruckClient
   end
 
   def package_for_version(version, prerelease = false, nightly = false)
-    url = 'http://www.opscode.com/chef/download-server'
+    url = 'http://www.chef.io/chef/download-server'
     url << "?p=#{platform}"
     url << "&pv=#{platform_version}"
     url << "&m=#{machine_architecture}"

@@ -35,14 +35,14 @@ Vagrant.configure('2') do |config|
 
   config.vm.hostname = 'chef-server'
 
-  config.vm.box = 'opscode-ubuntu-12.04'
-  config.vm.box_url = 'https://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-12.04_chef-provisionerless.box'
+  config.vm.box = 'chef-ubuntu-12.04'
+  config.vm.box_url = 'https://chef-vm-bento.s3.amazonaws.com/vagrant/virtualbox/chef_ubuntu-12.04_chef-provisionerless.box'
 
   # Alternate images that are also suitable for use with this recipe
   # config.vm.box = "canonical-ubuntu-12.04"
   # config.vm.box_url = "http://cloud-images.ubuntu.com/vagrant/precise/current/precise-server-cloudimg-amd64-vagrant-disk1.box"
-  # config.vm.box = "opscode-centos-6.5"
-  # config.vm.box_url = "https://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-6.5_provisionerless.box"
+  # config.vm.box = "chef-centos-6.5"
+  # config.vm.box_url = "https://chef-vm-bento.s3.amazonaws.com/vagrant/virtualbox/chef_centos-6.5_provisionerless.box"
 
   config.vm.network :private_network, :ip => '33.33.33.50'
 
