@@ -66,7 +66,7 @@ repos.each do |project, options|
   github_name = options.key?(:github_name) ? options[:github_name] : project
 
   git ::File.join(DevHelper.code_root, project) do
-    repository "git://github.com/chef/#{github_name}"
+    repository "https://github.com/chef/#{github_name}"
     reference 'master'
     action :checkout
   end
