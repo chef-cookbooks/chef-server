@@ -36,6 +36,7 @@ end
 
 package_name = ::File.basename(omnibus_package)
 package_local_path = "#{Chef::Config[:file_cache_path]}/#{package_name}"
+config_path = node['chef-server']['config_path'] || '/etc/chef-server'
 
 # Ensure :file_cache_path exists
 directory Chef::Config[:file_cache_path] do
@@ -76,7 +77,7 @@ package package_name do # ignore ~FC009 known bug in food critic causes this to 
 end
 
 # create the chef-server etc directory
-directory '/etc/chef-server' do
+directory config_path do
   owner 'root'
   group 'root'
   recursive true
@@ -84,7 +85,7 @@ directory '/etc/chef-server' do
 end
 
 # create the initial chef-server config file
-template '/etc/chef-server/chef-server.rb' do
+template config_path + '/chef-server.rb' do
   source 'chef-server.rb.erb'
   owner 'root'
   group 'root'
