@@ -36,7 +36,7 @@ Vagrant.configure('2') do |config|
   config.vm.hostname = 'chef-server'
 
   config.vm.box = 'chef-ubuntu-12.04'
-  config.vm.box_url = 'https://chef-vm-bento.s3.amazonaws.com/vagrant/virtualbox/chef_ubuntu-12.04_chef-provisionerless.box'
+  config.vm.box_url = 'http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-12.04_chef-provisionerless.box'
 
   # Alternate images that are also suitable for use with this recipe
   # config.vm.box = "canonical-ubuntu-12.04"
