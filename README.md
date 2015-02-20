@@ -82,9 +82,12 @@ Chef Server Omnibus packages are available for the following platforms:
 
 * CentOS 5 64-bit
 * CentOS 6 64-bit
-* Ubuntu 10.04, 10.10 64-bit
-* Ubuntu 11.04, 11.10 64-bit
-* Ubuntu 12.04, 12.10 64-bit
+* Ubuntu 10.04 (lucid) 64-bit
+* Ubuntu 10.10 (maverick) 64-bit
+* Ubuntu 11.04 (natty) 64-bit
+* Ubuntu 11.10 (oneric) 64-bit
+* Ubuntu 12.04 (precise) 64-bit
+* Ubuntu 12.10 (quantal) 64-bit
 
 ATTRIBUTES
 ==========
