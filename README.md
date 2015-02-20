@@ -153,11 +153,11 @@ system using this cookbook:
     # install chef-solo
     curl -L https://www.chef.io/chef/install.sh | sudo bash
     # create required bootstrap dirs/files
-    mkdir -p /var/chef/cache /var/chef/cookbooks/chef-server
+    sudo mkdir -p /var/chef/cache /var/chef/cookbooks/chef-server
     # pull down this chef-server cookbook
-    wget -qO- https://github.com/chef-cookbooks/chef-server/archive/master.tar.gz | tar xvzC /var/chef/cookbooks/chef-server --strip-components=1
+    sudo wget -qO- https://github.com/chef-cookbooks/chef-server/archive/master.tar.gz | tar xvzC /var/chef/cookbooks/chef-server --strip-components=1
     # GO GO GO!!!
-    chef-solo -o 'recipe[chef-server::default]'
+    sudo chef-solo -o 'recipe[chef-server::default]'
 
 If you need more control over the final configuration of your Chef
 Server instance you can create a JSON attributes file and set
