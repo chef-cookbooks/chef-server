@@ -24,9 +24,10 @@ Vagrant.configure('2') do |config|
   end
 
   # Detects vagrant-berkshelf plugin
-  if Vagrant.has_plugin?('berkshelf')
+  if Vagrant.has_plugin?('vagrant-berkshelf')
     # The path to the Berksfile to use with Vagrant Berkshelf
     puts 'INFO:  Vagrant-berkshelf plugin detected.'
+    config.berkshelf.enabled = true
     config.berkshelf.berksfile_path = './Berksfile'
   else
     puts "FATAL: Vagrant-berkshelf plugin not detected. Please install the plugin with\n       'vagrant plugin install vagrant-berkshelf' from any other directory\n       before continuing."
