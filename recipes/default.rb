@@ -1,5 +1,5 @@
 #
-# Copyright:: Copyright (c) 2012 Chef Software, Inc.
+# Copyright:: Copyright (c) 2012-2015 Chef Software, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,90 +12,25 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
+#
 require 'resolv'
-require 'chef/util/file_edit'
 
-# Acquire the chef-server Omnibus package
-if node['chef-server']['package_file'].nil? || node['chef-server']['package_file'].empty?
-  omnibus_package = OmnitruckClient.new(node).package_for_version(
-    node['chef-server']['version'],
-    node['chef-server']['prereleases'],
-    node['chef-server']['nightlies']
-    )
-  unless omnibus_package
-    err_msg = 'Could not locate chef-server'
-    err_msg << ' pre-release' if node['chef-server']['prereleases']
-    err_msg << ' nightly' if node['chef-server']['nightlies']
-    err_msg << " package matching version '#{node['chef-server']['version']}' for node."
-    fail err_msg
-  end
-else
-  omnibus_package = node['chef-server']['package_file']
+chef_server_ingredient 'chef-server-core' do
+  version node['chef-server']['version']
+  notifies :reconfigure, 'chef_server_ingredient[chef-server-core]'
 end
 
-package_name = ::File.basename(omnibus_package)
-package_local_path = "#{Chef::Config[:file_cache_path]}/#{package_name}"
-
-# Ensure :file_cache_path exists
-directory Chef::Config[:file_cache_path] do
-  owner 'root'
-  group 'root'
+directory '/etc/opscode' do
   recursive true
-  action :create
-end
-
-# omnibus_package is remote (ie a URI) let's download it
-if ::URI.parse(omnibus_package).absolute?
-  remote_file package_local_path do
-    source omnibus_package
-    if node['chef-server']['package_checksum']
-      checksum node['chef-server']['package_checksum']
-      action :create
-    else
-      action :create_if_missing
-    end
-  end
-  # else we assume it's on the local machine
-else
-  package_local_path = omnibus_package
-end
-
-# install the platform package
-package package_name do # ignore ~FC009 known bug in food critic causes this to trigger see Foodcritic Issue #137
-  source package_local_path
-  provider case node['platform_family']
-           when 'debian' then Chef::Provider::Package::Dpkg
-           when 'rhel' then Chef::Provider::Package::Rpm
-           else
-             fail RuntimeError("I don't know how to install chef-server packages for platform family '#{node["platform_family"]}'!")
-           end
-  options node['chef-server']['package_options']
-  action :install
-  notifies :run, 'execute[reconfigure-chef-server]'
-end
-
-# create the chef-server etc directory
-directory '/etc/chef-server' do
-  owner 'root'
-  group 'root'
-  recursive true
-  action :create
 end
 
 # create the initial chef-server config file
-template '/etc/chef-server/chef-server.rb' do
+template '/etc/opscode/chef-server.rb' do
   source 'chef-server.rb.erb'
   owner 'root'
   group 'root'
   action :create
-  notifies :run, 'execute[reconfigure-chef-server]', :immediately
-end
-
-# reconfigure the installation
-execute 'reconfigure-chef-server' do
-  command 'chef-server-ctl reconfigure'
-  action :nothing
+  notifies :reconfigure, 'chef_server_ingredient[chef-server-core]'
 end
 
 ruby_block 'ensure node can resolve API FQDN' do
@@ -105,5 +40,6 @@ ruby_block 'ensure node can resolve API FQDN' do
       "127.0.0.1 #{node['chef-server']['api_fqdn']}")
     fe.write_file
   end
+  not_if { node['chef-server']['api_fqdn'].nil? || node['chef-server']['api_fqdn'].empty? }
   not_if { Resolv.getaddress(node['chef-server']['api_fqdn']) rescue false } # host resolves
 end

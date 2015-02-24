@@ -1,0 +1,21 @@
+require_relative './spec_helper'
+require 'resolv'
+
+describe 'chef-server' do
+  describe package('chef-server-core') do
+    it { should be_installed }
+  end
+
+  describe file('/etc/opscode/chef-server.rb') do
+    its(:content) { should match(/^topology "standalone"$/) }
+    its(:content) { should match(/^api_fqdn ".+"$/) }
+  end
+
+  describe file('/etc/hosts') do
+    its(:content) { should match(/127.0.0.1 chef-server-tk.example.com/) }
+  end
+
+  describe command('chef-server-ctl test') do
+    its(:exit_status) { should eq 0 }
+  end
+end
