@@ -2,7 +2,7 @@
 # Cookbook Name:: chef-server
 # Attributes:: default
 #
-# Copyright:: Copyright (c) 2012 Chef Software, Inc.
+# Copyright:: Copyright (c) 2012-2015 Chef Software, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,20 +15,19 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+#
+#
+default['chef-server']['version'] = nil
 
-default['chef-server']['version'] = :latest
-default['chef-server']['prereleases'] = false
-default['chef-server']['nightlies'] = false
-default['chef-server']['package_file'] = nil
-default['chef-server']['package_checksum'] = nil
-default['chef-server']['package_options'] = nil
+# The Chef Server must have an API FQDN set.
+# Ref. http://docs.chef.io/install_server_pre.html#hostnames
 default['chef-server']['api_fqdn'] = node['fqdn']
 
 #
 # Chef Server Tunables
 #
 # For a complete list see:
-# https://github.com/chef/omnibus-chef-server/blob/master/files/chef-server-cookbooks/chef-server/attributes/default.rb
+# http://docs.chef.io/server/config_rb_server.html
 #
 # Example:
 #
@@ -38,7 +37,7 @@ default['chef-server']['api_fqdn'] = node['fqdn']
 #
 # In a role:
 #
-#     override_attributes(
+#     default_attributes(
 #       'chef-server' => {
 #         'configuration' => {
 #           'nginx' => {

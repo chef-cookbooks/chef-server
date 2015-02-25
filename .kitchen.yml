@@ -1,22 +1,36 @@
 driver:
   name: vagrant
+  customize:
+    memory: 1024
+    cpus: 2
 
 provisioner:
   name: chef_zero
-  require_chef_omnibus: latest
 
 platforms:
 - name: ubuntu-10.04
-- name: ubuntu-10.10
 - name: ubuntu-12.04
-- name: ubuntu-12.10
-- name: ubuntu-13.04
-- name: ubuntu-13.10
-- name: centos-6.5
+- name: ubuntu-14.04
+- name: centos-6.6
 - name: centos-5.10
+- name: centos-5.11
 
 suites:
 - name: default
   run_list:
+  - recipe[test]
   - recipe[chef-server]
-  attributes: {}
+  attributes:
+    chef-server:
+      api_fqdn: 'chef-server-tk.example.com'
+
+- name: no-fqdn
+  run_list:
+  - recipe[test]
+  - recipe[chef-server]
+  driver:
+    network:
+      - ['private_network', {ip: '192.168.243.2'}]
+  attributes:
+    chef-server:
+      api_fqdn: ''
