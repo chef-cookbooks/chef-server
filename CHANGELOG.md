@@ -1,6 +1,25 @@
 chef-server cookbook README
 ==========================
 
+v3.0.0 (2015-02-24)
+-------------------
+
+**Major Version Update**
+
+Version 3.0.0 supports Chef Server 12. For background and rationale, see [the mailing list post](http://lists.opscode.com/sympa/arc/chef/2015-02/msg00351.html). Changes are from commit [0f2d123](https://github.com/opscode-cookbooks/chef-server/commit/0f2d123ad9ebb40ac18fdabdeee2d66735604bbe).
+
+* Remove the omnitruck API client library and related attributes
+* Use packagecloud repository for packages through the `chef_server_ingredient` resource
+* Remove the `dev` recipe
+* Remove the dependency on the git cookbook
+* Remove the Vagrantfile - we use test-kitchen now
+* Update the Berksfile accordingly
+* Add ServerSpec tests
+
+### Other changes
+
+* Fixes #46/COOK-4691, use IP address as hostname. This is only recommended for testing purposes.
+
 v2.1.6 (2014-05-22)
 -------------------
 
