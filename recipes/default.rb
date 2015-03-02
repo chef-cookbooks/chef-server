@@ -17,7 +17,7 @@ require 'resolv'
 
 chef_server_ingredient 'chef-server-core' do
   version node['chef-server']['version']
-  notifies :reconfigure, 'chef_server_ingredient[chef-server-core]'
+  action [:install, :reconfigure]
 end
 
 directory '/etc/opscode' do

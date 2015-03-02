@@ -18,4 +18,14 @@ describe 'chef-server' do
   describe command('chef-server-ctl test') do
     its(:exit_status) { should eq 0 }
   end
+
+  describe command('chef-server-ctl org-list') do
+    its(:exit_status) { should eq 0 }
+    its(:stdout) { should match(/sample/) }
+  end
+
+  describe command('chef-server-ctl list-user-keys exemplar') do
+    its(:exit_status) { should eq 0 }
+    its(:stdout) { should match(/1 total key\(s\) found for user exemplar/) }
+  end
 end
