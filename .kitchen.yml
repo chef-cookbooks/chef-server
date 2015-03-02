@@ -20,6 +20,7 @@ suites:
   run_list:
   - recipe[test]
   - recipe[chef-server]
+  - recipe[test::post-install]
   attributes:
     chef-server:
       api_fqdn: 'chef-server-tk.example.com'
