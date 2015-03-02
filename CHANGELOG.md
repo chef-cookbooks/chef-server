@@ -1,6 +1,11 @@
 chef-server cookbook README
 ==========================
 
+v3.0.1 (2015-03-02)
+-------------------
+
+- Issue #74, use :reconfigure action instead of notification so other configuration can happen after the Server is up within the same Chef run.
+
 v3.0.0 (2015-02-24)
 -------------------
 
