@@ -64,7 +64,6 @@ platforms:
     ssh_keys: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
     ssh_key: <%= ENV['DIGITAL_OCEAN_SSH_KEY_PATH'] %>
   run_list:
-  - recipe[apt]
 
 - name: ubuntu-14.04
   driver_plugin: digital_ocean
@@ -75,7 +74,6 @@ platforms:
     ssh_keys: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
     ssh_key: <%= ENV['DIGITAL_OCEAN_SSH_KEY_PATH'] %>
   run_list:
-  - recipe[apt]
 
 suites:
 - name: default
