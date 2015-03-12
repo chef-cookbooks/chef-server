@@ -13,6 +13,7 @@ end
 
 group :kitchen_common do
   gem 'test-kitchen', '~> 1.2'
+  gem 'kitchen-sync'
 end
 
 group :kitchen_vagrant do
@@ -20,7 +21,7 @@ group :kitchen_vagrant do
 end
 
 group :kitchen_cloud do
-  gem 'kitchen-digitalocean'
+  gem 'kitchen-digital_ocean'
   gem 'kitchen-ec2'
 end
 
