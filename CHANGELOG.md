@@ -1,6 +1,11 @@
 chef-server cookbook README
 ==========================
 
+v3.1.0 (2015-03-16)
+-------------------
+
+- Add a recipe and attribute to support installing addons. These are Chef premium features, see the README for more information about the `addons` recipe.
+
 v3.0.1 (2015-03-02)
 -------------------
 
