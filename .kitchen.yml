@@ -29,7 +29,6 @@ suites:
   run_list:
   - recipe[test]
   - recipe[chef-server]
-  - recipe[chef-server::add_ons]
   driver:
     network:
       - ['private_network', {ip: '192.168.243.2'}]
@@ -41,13 +40,12 @@ suites:
   run_list:
   - recipe[test]
   - recipe[chef-server]
-  - recipe[chef-server::add_ons]
+  - recipe[chef-server::addons]
   driver:
     network:
       - ['private_network', {ip: '192.168.243.3'}]
   attributes:
     chef-server:
       api_fqdn: ''
-      add_ons:
+      addons:
         - opscode-manage
-        - opscode-reporting
