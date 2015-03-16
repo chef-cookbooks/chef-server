@@ -23,6 +23,9 @@ default['chef-server']['version'] = nil
 # Ref. http://docs.chef.io/install_server_pre.html#hostnames
 default['chef-server']['api_fqdn'] = node['fqdn']
 
+# list of add-ons to install
+default['chef-server']['add_ons'] = %w{ opscode-manage }
+
 #
 # Chef Server Tunables
 #
