@@ -1,6 +1,13 @@
 chef-server cookbook README
 ==========================
 
+v3.1.1 (2015-04-09)
+-------------------
+- various cleanup
+- rubocop -a
+- adding .kitchen.cloud.yml
+- minor readability refactoring
+
 v3.1.0 (2015-03-16)
 -------------------
 
