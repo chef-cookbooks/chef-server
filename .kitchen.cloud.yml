@@ -1,92 +1,78 @@
 #<% require 'kitchen-sync' %>
 ---
 driver_config:
-  digitalocean_api_token: <%= ENV['DIGITAL_OCEAN_CLIENT_ID'] %>
-  digitalocean_client_id: <%= ENV['DIGITALOCEAN_ACCESS_TOKEN'] %>
-  google_client_email: <%= ENV['GOOGLE_CLIENT_EMAIL'] %>
-  google_key_location: <%= ENV['GOOGLE_KEY_LOCATION'] %>
-  google_project: <%= ENV['GOOGLE_PROJECT'] %>
-  joyent_username: <%= ENV['SDC_CLI_ACCOUNT'] %>
-  joyent_keyfile: <%= ENV['SDC_CLI_IDENTITY'] %>
-  joyent_keyname: <%= ENV['SDC_CLI_KEY_ID'] %>
-  joyent_url: <%= ENV['SDC_CLI_URL'] %>
-  aws_access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] %>
-  aws_secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
-  aws_ssh_key_id: <%= ENV['AWS_KEYPAIR_NAME'] %>
-  flavor_id: <%= ENV['EC2_FLAVOR_ID'] %>
-  availability_zone: <%= ENV['AWS_AVAILABILITY_ZONE'] %>
+  digitalocean_api_token: <%= ENV['DIGITALOCEAN_API_TOKEN'] %>
 
 provisioner:
   name: chef_zero
   require_chef_omnibus: latest
 
 platforms:
-- name: centos-5.11
-  driver_plugin: digital_ocean
-  driver_config:
-    size: 2gb
-    image: centos-5-11-x64
-    region: <%= ENV['DIGITAL_OCEAN_REGION'] %>
-    ssh_keys: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
-    ssh_key: <%= ENV['DIGITAL_OCEAN_SSH_KEY_PATH'] %>
-
-- name: centos-6.6
-  driver_plugin: digital_ocean
-  driver_config:
-    size: 2gb
-    image: centos-6-6-x64
-    region: <%= ENV['DIGITAL_OCEAN_REGION'] %>
-    ssh_keys: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
-    ssh_key: <%= ENV['DIGITAL_OCEAN_SSH_KEY_PATH'] %>
-
-# - name: centos-7.0
-#   driver_plugin: digital_ocean
-#   driver_config:
-#     size: 2gb
-#     image: centos-7-0-x64
-#     region: <%= ENV['DIGITAL_OCEAN_REGION'] %>
-#     ssh_keys: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
-#     ssh_key: <%= ENV['DIGITAL_OCEAN_SSH_KEY_PATH'] %>
-
-# - name: amazon-2014.09
-#   driver_plugin: ec2
-#   driver_config:
-#     image_id: ami-9a6ed3f2
-#     username: ec2-user
-#     ssh_key: <%= ENV['EC2_SSH_KEY_PATH'] %>
-
 - name: ubuntu-12.04
   driver_plugin: digital_ocean
   driver_config:
     size: 2gb
     image: ubuntu-12-04-x64
-    region: <%= ENV['DIGITAL_OCEAN_REGION'] %>
-    ssh_keys: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
-    ssh_key: <%= ENV['DIGITAL_OCEAN_SSH_KEY_PATH'] %>
+    region: <%= ENV['DIGITALOCEAN_REGION'] %>
+    ssh_key_ids: <%= ENV['DIGITALOCEAN_SSH_KEYS'] %>
+    ssh_key: <%= ENV['DIGITALOCEAN_SSH_KEY_PATH'] %>
   run_list:
+  - recipe[apt]
 
 - name: ubuntu-14.04
   driver_plugin: digital_ocean
   driver_config:
     size: 2gb
     image: ubuntu-14-04-x64
-    region: <%= ENV['DIGITAL_OCEAN_REGION'] %>
-    ssh_keys: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
-    ssh_key: <%= ENV['DIGITAL_OCEAN_SSH_KEY_PATH'] %>
+    region: <%= ENV['DIGITALOCEAN_REGION'] %>
+    ssh_key_ids: <%= ENV['DIGITALOCEAN_SSH_KEYS'] %>
+    ssh_key: <%= ENV['DIGITALOCEAN_SSH_KEY_PATH'] %>
   run_list:
+  - recipe[apt]
+
+- name: centos-5.8
+  driver_plugin: digital_ocean
+  driver_config:
+    size: 2gb
+    image: centos-5-8-x64
+    region: <%= ENV['DIGITALOCEAN_REGION'] %>
+    ssh_key_ids: <%= ENV['DIGITALOCEAN_SSH_KEYS'] %>
+    ssh_key: <%= ENV['DIGITALOCEAN_SSH_KEY_PATH'] %>
+
+- name: centos-6.5
+  driver_plugin: digital_ocean
+  driver_config:
+    size: 2gb
+    image: centos-6-5-x64
+    region: <%= ENV['DIGITALOCEAN_REGION'] %>
+    ssh_key_ids: <%= ENV['DIGITALOCEAN_SSH_KEYS'] %>
+    ssh_key: <%= ENV['DIGITALOCEAN_SSH_KEY_PATH'] %>
 
 suites:
 - name: default
   run_list:
-  - recipe[fqdn]
-  - recipe[chef-server::default]
+  - recipe[test]
+  - recipe[chef-server]
+  - recipe[test::post-install]
   attributes:
-    machine_fqdn: chef.computers.biz
-    fqdn_as_hostname: true
+    chef-server:
+      api_fqdn: 'chef-server-tk.example.com'
+
 - name: no-fqdn
   run_list:
   - recipe[test]
-  - recipe[chef-server::default]
+  - recipe[chef-server]
   attributes:
     chef-server:
-      api_fqdn: ""
+      api_fqdn: ''
+
+- name: add-ons-no-fqdn
+  run_list:
+  - recipe[test]
+  - recipe[chef-server]
+  - recipe[chef-server::addons]
+  attributes:
+    chef-server:
+      api_fqdn: ''
+      addons:
+        - opscode-manage

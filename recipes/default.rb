@@ -13,15 +13,33 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-require 'resolv'
+
+cache_path = Chef::Config[:file_cache_path]
+
+# see helpers.rb
+ruby_block 'ensure node can resolve API FQDN' do
+  extend ChefServerCoobook::Helpers
+  block { repair_api_fqdn }
+  only_if { api_fqdn_node_attr }
+  not_if { api_fqdn_resolves }
+end
 
 chef_server_ingredient 'chef-server-core' do
   version node['chef-server']['version']
-  action [:install, :reconfigure]
+  action :install
+end
+
+file "#{cache_path}/chef-server-core.firstrun" do
+  action :create
+  notifies :reconfigure, 'chef_server_ingredient[chef-server-core]', :immediately
 end
 
 directory '/etc/opscode' do
+  owner 'root'
+  group 'root'
+  mode '0755'
   recursive true
+  action :create
 end
 
 # create the initial chef-server config file
@@ -30,16 +48,5 @@ template '/etc/opscode/chef-server.rb' do
   owner 'root'
   group 'root'
   action :create
-  notifies :reconfigure, 'chef_server_ingredient[chef-server-core]'
-end
-
-ruby_block 'ensure node can resolve API FQDN' do
-  block do
-    fe = Chef::Util::FileEdit.new('/etc/hosts')
-    fe.insert_line_if_no_match(/#{node['chef-server']['api_fqdn']}/,
-      "127.0.0.1 #{node['chef-server']['api_fqdn']}")
-    fe.write_file
-  end
-  not_if { node['chef-server']['api_fqdn'].nil? || node['chef-server']['api_fqdn'].empty? }
-  not_if { Resolv.getaddress(node['chef-server']['api_fqdn']) rescue false } # host resolves
+  notifies :reconfigure, 'chef_server_ingredient[chef-server-core]', :immediately
 end
