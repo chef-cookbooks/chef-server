@@ -1,9 +1,19 @@
-execute 'create-admin-user' do
-  command 'chef-server-ctl user-create exemplar "Example User" exemplar@example.com dontusethisforreal --filename /tmp/exemplar.key'
-  not_if 'chef-server-ctl user-list | grep "exemplar"'
+chef_server_user 'testuser' do
+  firstname 'Test'
+  lastname 'User'
+  email 'testuser@example.com'
+  password 'testuser'
+  private_key_path '/tmp/testuser.pem'
+  action :create
 end
 
-execute 'create-organization' do
-  command 'chef-server-ctl org-create sample "Sample Size" --association_user exemplar --filename /tmp/exemplar.key'
-  not_if 'chef-server-ctl org-list | grep "sample"'
+chef_server_org 'example' do
+  org_long_name 'Example Organization'
+  org_private_key_path '/tmp/example-validator.pem'
+  action :create
+end
+
+chef_server_org 'example' do
+  admins %w{ testuser }
+  action :add_admin
 end
