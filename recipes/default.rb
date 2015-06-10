@@ -26,6 +26,7 @@ end
 
 chef_server_ingredient 'chef-server-core' do
   version node['chef-server']['version']
+  package_source node['chef-server']['package_source']
   action :install
 end
 
