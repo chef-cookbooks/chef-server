@@ -29,11 +29,6 @@ chef_server_ingredient 'chef-server-core' do
   action :install
 end
 
-file "#{cache_path}/chef-server-core.firstrun" do
-  action :create
-  notifies :reconfigure, 'chef_server_ingredient[chef-server-core]', :immediately
-end
-
 directory '/etc/opscode' do
   owner 'root'
   group 'root'
