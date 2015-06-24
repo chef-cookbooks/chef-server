@@ -26,6 +26,6 @@ describe 'chef-server' do
 
   describe command('chef-server-ctl list-user-keys exemplar') do
     its(:exit_status) { should eq 0 }
-    its(:stdout) { should match(/1 total key\(s\) found for user exemplar/) }
+    its(:stdout) { should match(/name: default\nexpired: false/) }
   end
 end

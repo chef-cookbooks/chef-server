@@ -24,7 +24,7 @@ ruby_block 'ensure node can resolve API FQDN' do
   not_if { api_fqdn_resolves }
 end
 
-chef_server_ingredient 'chef-server-core' do
+chef_ingredient 'chef-server' do
   version node['chef-server']['version']
   package_source node['chef-server']['package_source']
   action :install
@@ -32,7 +32,7 @@ end
 
 file "#{cache_path}/chef-server-core.firstrun" do
   action :create
-  notifies :reconfigure, 'chef_server_ingredient[chef-server-core]', :immediately
+  notifies :reconfigure, 'chef_ingredient[chef-server]', :immediately
 end
 
 directory '/etc/opscode' do
@@ -49,5 +49,5 @@ template '/etc/opscode/chef-server.rb' do
   owner 'root'
   group 'root'
   action :create
-  notifies :reconfigure, 'chef_server_ingredient[chef-server-core]', :immediately
+  notifies :reconfigure, 'chef_ingredient[chef-server]', :immediately
 end
