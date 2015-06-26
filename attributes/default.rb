@@ -36,18 +36,18 @@ default['chef-server']['addons'] = []
 #
 # In a recipe:
 #
-#     node.override['chef-server']['configuration']['nginx']['ssl_port'] = 4433
+#     node.override['chef-server']['configuration'] = <<-EOS
+#     nginx['ssl_port'] = 4433
+#     EOS
 #
 # In a role:
 #
 #     default_attributes(
 #       'chef-server' => {
-#         'configuration' => {
-#           'nginx' => {
-#             'ssl_port' => 4433
-#           }
-#         }
+#         'configuration' => <<-EOS
+#     nginx['ssl_port'] = 4433#
+#     EOS
 #       }
 #     )
 #
-default['chef-server']['configuration'] = {}
+default['chef-server']['configuration'] = ""

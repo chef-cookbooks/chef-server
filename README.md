@@ -58,14 +58,8 @@ space.
 
 Attribute        | Description |Type | Default
 -----------------|-------------|-----|--------
-api_fqdn         | Fully qualified domain name that you want to use
-for accessing the Web UI and API. If set to `nil` or empty string
-(`""`), the IP address will be used as hostname. | String |
-node['fqdn']
-
-configuration    | Configuration values to pass down to the underlying
-server config file (i.e. `/etc/chef-server/chef-server.rb`). | Hash |
-Hash.new
+api_fqdn         | Fully qualified domain name that you want to use for accessing the Web UI and API. If set to `nil` or empty string (`""`), the IP address will be used as hostname. | String | node['fqdn']
+configuration    | Configuration to pass down to the underlying server config file (i.e. `/etc/chef-server/chef-server.rb`). | String | ""
 
 version          | Chef Server version to install. If `nil`, the
 latest version is installed | String | nil
@@ -96,7 +90,7 @@ This recipe:
   reconfigure`.  
 - Updates the `/etc/hosts` file with the `api_fqdn` if that FQDN
   cannot be resolved.
-  
+
 
 ## addons
 

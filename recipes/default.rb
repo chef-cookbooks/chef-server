@@ -27,27 +27,18 @@ end
 chef_ingredient 'chef-server' do
   version node['chef-server']['version']
   package_source node['chef-server']['package_source']
+  config <<-EOS
+topology "standalone"
+api_fqdn "#{node['chef-server']['api_fqdn']}"
+#{node['chef-server']['configuration']}
+EOS
   action :install
 end
 
 file "#{cache_path}/chef-server-core.firstrun" do
   action :create
-  notifies :reconfigure, 'chef_ingredient[chef-server]', :immediately
 end
 
-directory '/etc/opscode' do
-  owner 'root'
-  group 'root'
-  mode '0755'
-  recursive true
-  action :create
-end
-
-# create the initial chef-server config file
-template '/etc/opscode/chef-server.rb' do
-  source 'chef-server.rb.erb'
-  owner 'root'
-  group 'root'
-  action :create
+ingredient_config "chef-server" do
   notifies :reconfigure, 'chef_ingredient[chef-server]', :immediately
 end
