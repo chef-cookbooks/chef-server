@@ -39,6 +39,6 @@ file "#{cache_path}/chef-server-core.firstrun" do
   action :create
 end
 
-ingredient_config "chef-server" do
+ingredient_config 'chef-server' do
   notifies :reconfigure, 'chef_ingredient[chef-server]', :immediately
 end

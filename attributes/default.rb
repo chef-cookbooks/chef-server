@@ -50,4 +50,4 @@ default['chef-server']['addons'] = []
 #       }
 #     )
 #
-default['chef-server']['configuration'] = ""
+default['chef-server']['configuration'] = ''
