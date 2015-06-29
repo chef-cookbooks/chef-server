@@ -24,6 +24,7 @@ default['chef-server']['package-source'] = nil
 # Ref. http://docs.chef.io/install_server_pre.html#hostnames
 default['chef-server']['api_fqdn'] = node['fqdn']
 
+default['chef-server']['topology'] = 'standalone'
 default['chef-server']['addons'] = []
 
 #

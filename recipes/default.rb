@@ -28,7 +28,7 @@ chef_ingredient 'chef-server' do
   version node['chef-server']['version']
   package_source node['chef-server']['package_source']
   config <<-EOS
-topology "standalone"
+topology "#{node['chef-server']['topology']}"
 api_fqdn "#{node['chef-server']['api_fqdn']}"
 #{node['chef-server']['configuration']}
 EOS

@@ -85,10 +85,10 @@ This recipe:
 
 - Installs the appropriate platform-specific chef-server Omnibus
   package from our Package Cloud
-  [repository](https://packagecloud.io/chef/stable)  
+  [repository](https://packagecloud.io/chef/stable)
 - Creates the initial `/etc/chef-server/chef-server.rb` file.
 - Performs initial system configuration via `chef-server-ctl
-  reconfigure`.  
+  reconfigure`.
 - Updates the `/etc/hosts` file with the `api_fqdn` if that FQDN
   cannot be resolved.
 
@@ -171,7 +171,7 @@ In a `dna.json` file, we need to insert a `\n` newline character.
 ```json
 {
   "chef-server": {
-    "configuration': "notification_email 'chef-server@example.com'\nnginx['cache_max_size'] = '3500m'"
+    "configuration": "notification_email 'chef-server@example.com'\nnginx['cache_max_size'] = '3500m'"
   }
 }
 ```
