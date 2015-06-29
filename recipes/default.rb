@@ -20,16 +20,17 @@ cache_path = Chef::Config[:file_cache_path]
 ruby_block 'ensure node can resolve API FQDN' do
   extend ChefServerCoobook::Helpers
   block { repair_api_fqdn }
-  only_if { api_fqdn_node_attr }
-  not_if { api_fqdn_resolves }
+  only_if { api_fqdn_available? }
+  not_if { api_fqdn_resolves? }
 end
 
 chef_ingredient 'chef-server' do
+  extend ChefServerCoobook::Helpers
   version node['chef-server']['version']
   package_source node['chef-server']['package_source']
   config <<-EOS
 topology "#{node['chef-server']['topology']}"
-api_fqdn "#{node['chef-server']['api_fqdn']}"
+#{"api_fqdn \"#{node['chef-server']['api_fqdn']}\"" if api_fqdn_available?}
 #{node['chef-server']['configuration']}
 EOS
   action :install
