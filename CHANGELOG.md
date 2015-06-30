@@ -1,6 +1,15 @@
 chef-server cookbook README
 ==========================
 
+v4.0.0 (2015-06-30)
+-------------------
+
+**Major version update, breaking changes ahead**
+
+- #84: Add ability to set the package source with an attribute for local package installation
+- #90: **Breaking** Use [chef-ingredient cookbook](https://supermarket.chef.io/cookbooks/chef-ingredient). The breaking change is that of the configuration file. Users who are modifying the configuration with the `node['chef-server']['configuration']` attribute as a hash will need to convert it to a string. See the README for more detail.
+- #93: Add a `topology` attribute. Finally you can use this cookbook for non-standalone installs.
+
 v3.1.1 (2015-04-09)
 -------------------
 - various cleanup
