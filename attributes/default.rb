@@ -46,7 +46,7 @@ default['chef-server']['addons'] = []
 #     default_attributes(
 #       'chef-server' => {
 #         'configuration' => <<-EOS
-#     nginx['ssl_port'] = 4433#
+#     nginx['ssl_port'] = 4433
 #     EOS
 #       }
 #     )
