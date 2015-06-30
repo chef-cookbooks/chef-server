@@ -20,34 +20,26 @@ cache_path = Chef::Config[:file_cache_path]
 ruby_block 'ensure node can resolve API FQDN' do
   extend ChefServerCoobook::Helpers
   block { repair_api_fqdn }
-  only_if { api_fqdn_node_attr }
-  not_if { api_fqdn_resolves }
+  only_if { api_fqdn_available? }
+  not_if { api_fqdn_resolves? }
 end
 
 chef_ingredient 'chef-server' do
+  extend ChefServerCoobook::Helpers
   version node['chef-server']['version']
   package_source node['chef-server']['package_source']
+  config <<-EOS
+topology "#{node['chef-server']['topology']}"
+#{"api_fqdn \"#{node['chef-server']['api_fqdn']}\"" if api_fqdn_available?}
+#{node['chef-server']['configuration']}
+EOS
   action :install
 end
 
 file "#{cache_path}/chef-server-core.firstrun" do
   action :create
-  notifies :reconfigure, 'chef_ingredient[chef-server]', :immediately
 end
 
-directory '/etc/opscode' do
-  owner 'root'
-  group 'root'
-  mode '0755'
-  recursive true
-  action :create
-end
-
-# create the initial chef-server config file
-template '/etc/opscode/chef-server.rb' do
-  source 'chef-server.rb.erb'
-  owner 'root'
-  group 'root'
-  action :create
+ingredient_config 'chef-server' do
   notifies :reconfigure, 'chef_ingredient[chef-server]', :immediately
 end

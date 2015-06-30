@@ -24,6 +24,7 @@ default['chef-server']['package-source'] = nil
 # Ref. http://docs.chef.io/install_server_pre.html#hostnames
 default['chef-server']['api_fqdn'] = node['fqdn']
 
+default['chef-server']['topology'] = 'standalone'
 default['chef-server']['addons'] = []
 
 #
@@ -36,18 +37,18 @@ default['chef-server']['addons'] = []
 #
 # In a recipe:
 #
-#     node.override['chef-server']['configuration']['nginx']['ssl_port'] = 4433
+#     node.override['chef-server']['configuration'] = <<-EOS
+#     nginx['ssl_port'] = 4433
+#     EOS
 #
 # In a role:
 #
 #     default_attributes(
 #       'chef-server' => {
-#         'configuration' => {
-#           'nginx' => {
-#             'ssl_port' => 4433
-#           }
-#         }
+#         'configuration' => <<-EOS
+#     nginx['ssl_port'] = 4433
+#     EOS
 #       }
 #     )
 #
-default['chef-server']['configuration'] = {}
+default['chef-server']['configuration'] = ''
