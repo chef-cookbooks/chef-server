@@ -18,14 +18,14 @@ cache_path = Chef::Config[:file_cache_path]
 
 # see helpers.rb
 ruby_block 'ensure node can resolve API FQDN' do
-  extend ChefServerCoobook::Helpers
+  extend ChefServerCookbook::Helpers
   block { repair_api_fqdn }
   only_if { api_fqdn_available? }
   not_if { api_fqdn_resolves? }
 end
 
 chef_ingredient 'chef-server' do
-  extend ChefServerCoobook::Helpers
+  extend ChefServerCookbook::Helpers
   version node['chef-server']['version']
   package_source node['chef-server']['package_source']
   config <<-EOS
