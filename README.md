@@ -60,10 +60,7 @@ Attribute        | Description |Type | Default
 -----------------|-------------|-----|--------
 api_fqdn         | Fully qualified domain name that you want to use for accessing the Web UI and API. If set to `nil` or empty string (`""`), the IP address will be used as hostname. | String | node['fqdn']
 configuration    | Configuration to pass down to the underlying server config file (i.e. `/etc/chef-server/chef-server.rb`). | String | ""
-
-version          | Chef Server version to install. If `nil`, the
-latest version is installed | String | nil
-
+version          | Chef Server version to install. If `nil`, the latest version is installed | String | nil
 addons           | Array of addon packages | Array | Array.new
 
 Previous versions of this cookbook had several other attributes used
