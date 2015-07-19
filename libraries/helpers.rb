@@ -1,5 +1,5 @@
 
-module ChefServerCoobook
+module ChefServerCookbook
   module Helpers
     def api_fqdn_available?
       return false if node['chef-server'].nil?

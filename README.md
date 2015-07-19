@@ -60,10 +60,7 @@ Attribute        | Description |Type | Default
 -----------------|-------------|-----|--------
 api_fqdn         | Fully qualified domain name that you want to use for accessing the Web UI and API. If set to `nil` or empty string (`""`), the IP address will be used as hostname. | String | node['fqdn']
 configuration    | Configuration to pass down to the underlying server config file (i.e. `/etc/chef-server/chef-server.rb`). | String | ""
-
-version          | Chef Server version to install. If `nil`, the
-latest version is installed | String | nil
-
+version          | Chef Server version to install. If `nil`, the latest version is installed | String | nil
 addons           | Array of addon packages | Array | Array.new
 
 Previous versions of this cookbook had several other attributes used
@@ -71,6 +68,17 @@ to control the version of the Chef Server package to install. This is
 deprecated.
 
 Previous versions of this cookbook used `configuration` as a Hash. This is now deprecated and the configuration should be specified as a String. This must include newlines for each of the configuration items.
+
+See https://docs.chef.io/config_rb_server.html for configuration options for Chef Server and below table for addons:
+
+Addon | Product Name  | Config Documentation
+------|---------------|---------------------
+manage | Management Console | https://docs.chef.io/config_rb_manage.html
+chef-ha | Chef Server High Availability | https://docs.chef.io/server_high_availability.html
+chef-sync	| Chef Server Replication | https://docs.chef.io/config_rb_chef_sync.html
+reporting | Chef Server Reporting | No separate config.
+push-server | Chef Push Server | https://docs.chef.io/config_rb_push_jobs_server.html
+supermarket | Supermarket | https://docs.chef.io/config_rb_supermarket.html
 
 Recipes
 =======
@@ -92,7 +100,6 @@ This recipe:
 - Updates the `/etc/hosts` file with the `api_fqdn` if that FQDN
   cannot be resolved.
 
-
 ## addons
 
 Chef addons are premium features that can be installed on the Chef
@@ -100,7 +107,6 @@ Server with the
 [appropriate license](https://www.chef.io/chef/#plans-and-pricing). If
 there are < 25 nodes managed, or a paid subscription license, addons
 can be installed.
-
 
 This recipe iterates through the `node['chef-server']['addons']`
 attribute and installs and reconfigures all the packages listed.
