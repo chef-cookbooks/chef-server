@@ -43,6 +43,7 @@ This cookbook is tested on the following platforms using the
 - Ubuntu 10.04, 10.10 64-bit
 - Ubuntu 11.04, 11.10 64-bit
 - Ubuntu 12.04, 12.10 64-bit
+- Ubuntu 14.04, 14.10 64-bit
 
 Unlisted platforms in the same family, of similar or equivalent
 versions may work with or without modification to this cookbook. For a
