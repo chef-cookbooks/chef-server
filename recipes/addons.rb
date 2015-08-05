@@ -14,7 +14,14 @@
 # limitations under the License.
 #
 node['chef-server']['addons'].each do |addon|
-  chef_ingredient addon do
-    notifies :reconfigure, "chef_ingredient[#{addon}]"
+  if addon.is_a?(Hash)
+    chef_ingredient addon.keys[0] do
+      package_source addon.values[0]
+      notifies :reconfigure, "chef_ingredient[#{addon.keys[0]}]"
+    end
+  else
+    chef_ingredient addon do
+      notifies :reconfigure, "chef_ingredient[#{addon}]"
+    end
   end
 end

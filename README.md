@@ -112,6 +112,15 @@ can be installed.
 This recipe iterates through the `node['chef-server']['addons']`
 attribute and installs and reconfigures all the packages listed.
 
+You can specify Addons as a string in the array or a hash like so:
+
+```
+node['chef-server']['addons'] = [
+  'manage',
+  {'reporting' => '~/reporting.deb' }
+]
+```
+
 
 Install Methods
 ===============
