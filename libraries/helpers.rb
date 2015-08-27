@@ -8,11 +8,8 @@ module ChefServerCookbook
     end
 
     def api_fqdn_resolves?
-      require 'resolv'
-      Resolv.getaddress(node['chef-server']['api_fqdn'])
-      return true
-    rescue
-      false
+      extend ChefIngredientCookbook::Helpers
+      fqdn_resolves?(node['chef-server']['api_fqdn'])
     end
 
     def repair_api_fqdn

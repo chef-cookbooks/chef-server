@@ -16,7 +16,6 @@
 
 cache_path = Chef::Config[:file_cache_path]
 
-# see helpers.rb
 ruby_block 'ensure node can resolve API FQDN' do
   extend ChefServerCookbook::Helpers
   block { repair_api_fqdn }
