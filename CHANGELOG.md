@@ -1,6 +1,11 @@
 chef-server cookbook README
 ==========================
 
+v4.1.0 (2015-08-31)
+-------------------
+
+- [#105](https://github.com/chef-cookbooks/chef-server): Move `fqdn_resolves` method to chef-ingredient cookbook.
+
 v4.0.0 (2015-06-30)
 -------------------
 
