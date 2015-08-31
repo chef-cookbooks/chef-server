@@ -8,8 +8,9 @@ module ChefServerCookbook
     end
 
     def api_fqdn_resolves?
-      extend ChefIngredientCookbook::Helpers
-      fqdn_resolves?(node['chef-server']['api_fqdn'])
+      ChefIngredientCookbook::Helpers.fqdn_resolves?(
+        node['chef-server']['api_fqdn']
+      )
     end
 
     def repair_api_fqdn
