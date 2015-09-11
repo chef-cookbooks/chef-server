@@ -24,7 +24,6 @@ group :kitchen_cloud do
   gem 'kitchen-ec2'
 end
 
-
 group :development do
   gem 'ruby_gntp'
   gem 'growl'
