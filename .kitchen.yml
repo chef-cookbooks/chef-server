@@ -8,11 +8,14 @@ provisioner:
   name: chef_zero
 
 platforms:
-- name: ubuntu-12.04
-- name: ubuntu-14.04
-- name: centos-6.6
-- name: centos-5.11
-- name: centos-7.1
+  - name: centos-6.7
+  - name: centos-7.1
+  - name: ubuntu-12.04
+    run_list:
+      - recipe[apt::default]
+  - name: ubuntu-14.04
+    run_list:
+      - recipe[apt::default]
 
 suites:
 - name: default
