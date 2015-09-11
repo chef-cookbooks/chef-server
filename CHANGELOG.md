@@ -1,5 +1,5 @@
-chef-server cookbook README
-==========================
+chef-server cookbook CHANGELOG
+==============================
 
 v4.1.0 (2015-08-31)
 -------------------
@@ -37,7 +37,7 @@ v3.0.0 (2015-02-24)
 
 **Major Version Update**
 
-Version 3.0.0 supports Chef Server 12. For background and rationale, see [the mailing list post](http://lists.opscode.com/sympa/arc/chef/2015-02/msg00351.html). Changes are from commit [0f2d123](https://github.com/opscode-cookbooks/chef-server/commit/0f2d123ad9ebb40ac18fdabdeee2d66735604bbe).
+Version 3.0.0 supports Chef Server 12. For background and rationale, see [the mailing list post](http://lists.opscode.com/sympa/arc/chef/2015-02/msg00351.html). Changes are from commit [0f2d123](https://github.com/chef-cookbooks/chef-server/commit/0f2d123ad9ebb40ac18fdabdeee2d66735604bbe).
 
 * Remove the omnitruck API client library and related attributes
 * Use packagecloud repository for packages through the `chef_server_ingredient` resource
