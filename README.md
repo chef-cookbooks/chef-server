@@ -1,5 +1,7 @@
 chef-server README
 ==================
+[![Build Status](https://travis-ci.org/chef-cookbooks/chef-server.svg?branch=master)](http://travis-ci.org/chef-cookbooks/chef-server)
+[![Cookbook Version](https://img.shields.io/cookbook/v/chef-server.svg)](https://supermarket.chef.io/cookbooks/chef-server
 
 This cookbook configures a system to be a *standalone* Chef Server. It
 will install the appropriate platform-specific chef-server Omnibus
@@ -10,7 +12,7 @@ It is not in the scope of this cookbook to handle more complex Chef
 Server topologies like 'tiered' or 'ha'. Nor is it in the scope of
 this cookbook to install and configure premium features or other
 add-ons. For clustered Chef Server deployments, see
-[chef-server-cluster](https://github.com/opscode-cookbooks/chef-server-cluster).
+[chef-server-cluster](https://github.com/chef-cookbooks/chef-server-cluster).
 For primitives for installing `chef-server-core` or other Chef Server
 add-ons, see
 [chef-server-ingredient](https://supermarket.chef.io/cookbooks/chef-server-ingredient).
@@ -206,4 +208,5 @@ Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
+limitations under the License.
 ```
