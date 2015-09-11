@@ -1,7 +1,7 @@
 chef-server README
 ==================
 [![Build Status](https://travis-ci.org/chef-cookbooks/chef-server.svg?branch=master)](http://travis-ci.org/chef-cookbooks/chef-server)
-[![Cookbook Version](https://img.shields.io/cookbook/v/chef-server.svg)](https://supermarket.chef.io/cookbooks/chef-server
+[![Cookbook Version](https://img.shields.io/cookbook/v/chef-server.svg)](https://supermarket.chef.io/cookbooks/chef-server)
 
 This cookbook configures a system to be a *standalone* Chef Server. It
 will install the appropriate platform-specific chef-server Omnibus
