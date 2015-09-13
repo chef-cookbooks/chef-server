@@ -27,7 +27,6 @@ end
 group :development do
   gem 'ruby_gntp'
   gem 'growl'
-  gem 'kitchen-vagrant'
   gem 'rb-fsevent'
   gem 'guard', '~> 2.4'
   gem 'guard-kitchen'
