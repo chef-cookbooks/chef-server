@@ -1,5 +1,6 @@
 chef-server cookbook CHANGELOG
 ==============================
+This file is used to list changes made in each version of the chef-server cookbook.
 
 v4.1.0 (2015-08-31)
 -------------------
