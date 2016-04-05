@@ -31,7 +31,7 @@ default['chef-server']['addons'] = []
 # Chef Server Tunables
 #
 # For a complete list see:
-# http://docs.chef.io/server/config_rb_server.html
+# https://docs.chef.io/server/config_rb_server_optional_settings.html
 #
 # Example:
 #
