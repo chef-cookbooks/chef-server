@@ -1,5 +1,5 @@
 execute 'create-admin-user' do
-  command 'chef-server-ctl user-create exemplar "Example User" exemplar@example.com dontusethisforreal --filename /tmp/exemplar.key'
+  command 'chef-server-ctl user-create exemplar Example User exemplar@example.com dontusethisforreal --filename /tmp/exemplar.key'
   not_if 'chef-server-ctl user-list | grep "exemplar"'
 end
 
