@@ -20,10 +20,8 @@ This cookbook is tested with  Chef (client) 12. It may work with or without modi
 
 This cookbook is tested on the following platforms using the [Test Kitchen](http://kitchen.ci) `.kitchen.yml` in the repository.
 
-- RHEL/CentOS 5 64-bit
 - RHEL/CentOS 6 64-bit
-- Ubuntu 10.04, 10.10 64-bit
-- Ubuntu 11.04, 11.10 64-bit
+- RHEL/CentOS 7 64-bit
 - Ubuntu 12.04, 12.10 64-bit
 - Ubuntu 14.04, 14.10 64-bit
 
