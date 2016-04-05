@@ -159,7 +159,7 @@ As this cookbook uses the [chef-ingredient cookbook](https://supermarket.chef.io
 
 - Author: Seth Chisamore [schisamo@chef.io](mailto:schisamo@chef.io)
 - Author: Joshua Timberman [joshua@chef.io](mailto:joshua@chef.io)
-- Copyright 2012-2015, Chef Software, Inc
+- Copyright 2012-2016, Chef Software, Inc
 
 ```text
 Licensed under the Apache License, Version 2.0 (the "License");
