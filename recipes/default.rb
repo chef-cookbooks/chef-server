@@ -28,7 +28,7 @@ end
 
 chef_ingredient 'chef-server' do
   extend ChefServerCookbook::Helpers
-  version node['chef-server']['version']
+  version node['chef-server']['version'] unless node['chef-server']['version'].nil?
   package_source node['chef-server']['package_source']
   config <<-EOS
 topology "#{node['chef-server']['topology']}"
