@@ -2,7 +2,7 @@
 # Cookbook Name:: chef-server
 # Attributes:: default
 #
-# Copyright:: Copyright (c) 2012-2015 Chef Software, Inc.
+# Copyright:: Copyright (c) 2012-2016 Chef Software, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -31,7 +31,7 @@ default['chef-server']['addons'] = []
 # Chef Server Tunables
 #
 # For a complete list see:
-# http://docs.chef.io/server/config_rb_server.html
+# https://docs.chef.io/server/config_rb_server_optional_settings.html
 #
 # Example:
 #
