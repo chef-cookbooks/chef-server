@@ -4,7 +4,7 @@
 
 This cookbook configures a system to be a _standalone_ Chef Server. It will install the appropriate platform-specific chef-server Omnibus package from Package Cloud and perform the initial configuration.
 
-It is not in the scope of this cookbook to handle more complex Chef Server topologies like 'tiered' or 'ha'. Nor is it in the scope of this cookbook to install and configure premium features or other add-ons. For clustered Chef Server deployments, see [chef-server-cluster](https://github.com/chef-cookbooks/chef-server-cluster). For primitives for installing `chef-server-core` or other Chef Server add-ons, see [chef-server-ingredient](https://supermarket.chef.io/cookbooks/chef-server-ingredient).
+It is not in the scope of this cookbook to handle more complex Chef Server topologies like 'tiered' or 'ha'. Nor is it in the scope of this cookbook to install and configure premium features or other add-ons. For clustered Chef Server deployments, see [chef-server-cluster](https://github.com/chef-cookbooks/chef-server-cluster). For primitives for installing `chef-server-core` or other Chef Server add-ons, see [chef-ingredient](https://supermarket.chef.io/cookbooks/chef-ingredient).
 
 It is also not in the scope of this cookbook to handle older versions of Chef Server, such as 11 or 10. For Chef Server 11, see version 2.1.x of this cookbook on Supermarket, or the `chef11` branch of this repository.
 
@@ -27,7 +27,7 @@ Unlisted platforms in the same family, of similar or equivalent versions may wor
 
 ### Cookbooks
 
-- chef-server-ingredient >= 0.11
+- chef-ingredient >= 0.11
 
 ## Attributes
 
