@@ -27,7 +27,7 @@ Unlisted platforms in the same family, of similar or equivalent versions may wor
 
 ### Cookbooks
 
-- chef-ingredient >= 0.11
+- chef-ingredient >= 0.18
 
 ## Attributes
 
