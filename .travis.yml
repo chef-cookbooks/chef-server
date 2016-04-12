@@ -14,6 +14,8 @@ env:
   matrix:
   - INSTANCE=default-ubuntu-1404
   - INSTANCE=default-centos-7
+  - INSTANCE=add-ons-no-fqdn-ubuntu-1404
+  - INSTANCE=add-ons-no-fqdn-centos-7
 
 # Don't `bundle install`
 install: echo "skip bundle install"
