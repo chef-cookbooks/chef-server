@@ -27,7 +27,7 @@ Unlisted platforms in the same family, of similar or equivalent versions may wor
 
 ### Cookbooks
 
-- chef-ingredient >= 0.11
+- chef-ingredient >= 0.18
 
 ## Attributes
 
@@ -46,14 +46,14 @@ Previous versions of this cookbook used `configuration` as a Hash. This is now d
 
 See <https://docs.chef.io/config_rb_server.html> for configuration options for Chef Server and below table for addons:
 
-Addon       | Product Name                  | Config Documentation
------------ | ----------------------------- | ----------------------------------------------------
-manage      | Management Console            | https://docs.chef.io/config_rb_manage.html
-chef-ha     | Chef Server High Availability | https://docs.chef.io/server_high_availability.html
-chef-sync   | Chef Server Replication       | https://docs.chef.io/config_rb_chef_sync.html
-reporting   | Chef Server Reporting         | No separate config.
-push-server | Chef Push Server              | https://docs.chef.io/config_rb_push_jobs_server.html
-supermarket | Supermarket                   | https://docs.chef.io/config_rb_supermarket.html
+Addon            | Product Name                  | Config Documentation
+---------------- | ----------------------------- | ----------------------------------------------------
+manage           | Management Console            | https://docs.chef.io/config_rb_manage.html
+ha               | Chef Server High Availability | https://docs.chef.io/server_high_availability.html
+sync             | Chef Server Replication       | https://docs.chef.io/config_rb_chef_sync.html
+reporting        | Chef Server Reporting         | No separate config.
+push-jobs-server | Chef Push Server              | https://docs.chef.io/config_rb_push_jobs_server.html
+supermarket      | Supermarket                   | https://docs.chef.io/config_rb_supermarket.html
 
 ## Recipes
 
