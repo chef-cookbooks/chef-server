@@ -2,6 +2,16 @@
 
 This file is used to list changes made in each version of the chef-server cookbook.
 
+## v5.0.0 (2016-04-13)
+
+### Breaking Changes:
+
+This cookbook now requires chef-ingredient 0.18 or later. This switches the package source for chef-server packages to packages.chef.io, and also changes the names of the server add-ons as follows:
+
+- chef-ha -> ha
+- chef-sync -> sync
+- push-server -> push-jobs-server
+
 ## v4.1.0 (2015-08-31)
 
 - [#105](https://github.com/chef-cookbooks/chef-server): Move `fqdn_resolves` method to chef-ingredient cookbook.
