@@ -18,6 +18,7 @@
 #
 node['chef-server']['addons'].each do |addon|
   chef_ingredient addon do
+    accept_license node['chef-server']['accept_license'] unless node['chef-server']['accept_license'].nil?
     notifies :reconfigure, "chef_ingredient[#{addon}]"
   end
 end

@@ -26,6 +26,7 @@ default['chef-server']['api_fqdn'] = node['fqdn']
 
 default['chef-server']['topology'] = 'standalone'
 default['chef-server']['addons'] = []
+default['chef-server']['accept_license'] = nil
 
 #
 # Chef Server Tunables
