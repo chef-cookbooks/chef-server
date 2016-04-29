@@ -26,7 +26,13 @@ default['chef-server']['api_fqdn'] = node['fqdn']
 
 default['chef-server']['topology'] = 'standalone'
 default['chef-server']['addons'] = []
-default['chef-server']['accept_license'] = nil
+
+# Chef Licensing requirements
+# https://docs.chef.io/install_server.html
+# Chef Ingredient parameter 
+# https://github.com/chef-cookbooks/chef-ingredient/pull/101
+
+default['chef-server']['accept_license'] = false
 
 #
 # Chef Server Tunables

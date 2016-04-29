@@ -59,3 +59,4 @@ suites:
       addons:
         - manage
         - sync
+      accept_license: true
