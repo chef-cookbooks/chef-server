@@ -39,6 +39,7 @@ api_fqdn      | Fully qualified domain name that you want to use for accessing t
 configuration | Configuration to pass down to the underlying server config file (i.e. `/etc/chef-server/chef-server.rb`).                                                           | String | ""
 version       | Chef Server version to install. If `nil`, the latest version is installed                                                                                           | String | nil
 addons        | Array of addon packages (you need to add the addons recipe to the run list for the addons to be installed)                                                          | Array  | Array.new
+accept_license | A boolean value that specifies if license should be accepted if it is asked for during reconfigure. | Boolean | false
 
 Previous versions of this cookbook had several other attributes used to control the version of the Chef Server package to install. This is deprecated.
 
@@ -154,6 +155,29 @@ In a `dna.json` file, we need to insert a `\n` newline character.
 The `chef-server-ctl` command is the administrative interface to the Chef Server. It has its own [documentation](https://docs.chef.io/ctl_chef_server.html). Various administrative functions provided by `chef-server-ctl` are not in the scope of this cookbook. Special/customized needs should be managed in your own cookbook.
 
 As this cookbook uses the [chef-ingredient cookbook](https://supermarket.chef.io/cookbooks/chef-ingredient), its resources can be used to manage the Chef Server installation. The default recipe in this cookbook exposes `chef_ingredient[chef-server]` as a resource that can be sent a `:reconfigure` action from your own cookbooks. The `omnibus_service` resource can be used to manage the underlying services for the Chef Server. See the [chef-ingredient cookbook](https://supermarket.chef.io/cookbooks/chef-ingredient#readme) for more information.
+
+### Chef Proprietary Product Licensings
+
+If on convergence you are observing an error in the form of:
+
+```
+             ================================================================================
+             Error executing action `run` on resource 'execute[chef-manage-reconfigure]'
+             ================================================================================
+
+             Mixlib::ShellOut::ShellCommandFailed
+             ------------------------------------
+             Expected process to exit with [0], but received '1'
+             ---- Begin output of chef-manage-ctl reconfigure ----
+             STDOUT: To use this software, you must agree to the terms of the software license agreement.
+             Please view and accept the software license agreement, or pass --accept-license.
+             STDERR:
+             ---- End output of chef-manage-ctl reconfigure ----
+             Ran chef-manage-ctl reconfigure returned 1
+```
+when using proprietary Chef products, you will need to make sure to accept the Chef Master License and Services Agreement (Chef MSLA).
+
+Proprietary Chef products—such as Chef Compliance, Chef Delivery, Chef Analytics, Reporting, and the Chef Management Console—are governed by the Chef MLSA. [The Chef MLSA must be accepted when installing or reconfiguring the product](https://docs.chef.io/chef_license.html). Chef ingredient added the [accept_license](https://github.com/chef-cookbooks/chef-ingredient/pull/101) property to provide a way to automate this. This fix adds the attribute ['chef-server']['accept_license']. The default value is _false_. Individuals must explicitly change the value to true in their environment to accept the license. Make sure you set the node attribute ['chef-server']['accept_license'] = true to resolve this error.
 
 ## License and Authors
 
