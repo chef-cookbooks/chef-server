@@ -23,7 +23,7 @@ Unlisted platforms in the same family, of similar or equivalent versions may wor
 
 ### Chef
 
-- Chef 12+
+- Chef 12.1+
 
 ### Cookbooks
 

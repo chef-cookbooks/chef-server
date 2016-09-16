@@ -11,5 +11,6 @@ supports 'redhat'
 supports 'centos'
 supports 'ubuntu'
 
-source_url 'https://github.com/chef-cookbooks/chef-server' if respond_to?(:source_url)
-issues_url 'https://github.com/chef-cookbooks/chef-server/issues' if respond_to?(:issues_url)
+source_url 'https://github.com/chef-cookbooks/chef-server'
+issues_url 'https://github.com/chef-cookbooks/chef-server/issues'
+chef_version '>= 12.1'
