@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of the chef-server cookbook.
 
+## 5.1.0 (2016-09-16)
+- Testing updates
+- Require Chef 12.1 not 12.0
+
 ## v5.0.1 (2016-04-28)
 
 As of Chef management console 2.3.0 the [Chef MLSA must be accepted when reconfiguring the product.](https://docs.chef.io/install_server.html) Chef ingredient added the [accept_license](https://github.com/chef-cookbooks/chef-ingredient/pull/101) property to provide a way to automate this. This fix adds the attribute ['chef-server']['accept_license']. The default value is _false_. Individuals must explicitly change the value to true in their environment. 
