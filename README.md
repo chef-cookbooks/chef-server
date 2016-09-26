@@ -64,14 +64,10 @@ This section describes the recipes in the cookbook and how to use them in your e
 
 This recipe:
 
-- Installs the appropriate platform-specific chef-server Omnibus
-- package from our Package Cloud
-- [repository](https://packagecloud.io/chef/stable)
+- Installs the appropriate platform-specific chef-server Omnibus package from our Package Cloud [repository](https://packagecloud.io/chef/stable)
 - Creates the initial `/etc/chef-server/chef-server.rb` file.
-- Performs initial system configuration via `chef-server-ctl
-- reconfigure`.
-- Updates the `/etc/hosts` file with the `api_fqdn` if that FQDN
-- cannot be resolved.
+- Performs initial system configuration via `chef-server-ctl reconfigure`.
+- Updates the `/etc/hosts` file with the `api_fqdn` if that FQDN cannot be resolved.
 
 ### addons
 
@@ -93,7 +89,7 @@ sudo mkdir -p /var/chef/cache /var/chef/cookbooks
 # pull down this chef-server cookbook
 wget -qO- https://supermarket.chef.io/cookbooks/chef-server/download | sudo tar xvzC /var/chef/cookbooks
 # pull down dependency cookbooks
-for dep in chef-ingredient yum-chef yum apt-chef apt packagecloud
+for dep in chef-ingredient yum-chef yum apt-chef apt packagecloud compat_resource
 do
   wget -qO- https://supermarket.chef.io/cookbooks/${dep}/download | sudo tar xvzC /var/chef/cookbooks
 done
@@ -103,7 +99,7 @@ sudo chef-solo -o 'recipe[chef-server::default]'
 
 Be sure to download and untar the `chef-ingredient`, `yum-chef`, `yum`, `apt-chef`, `apt`, and `packagecloud` cookbooks. They're dependencies of this cookbook.
 
-If you need more control over the final configuration of your Chef Server instance you can create a JSON attributes file and set underlying configuration via the `node['chef-server']['configuration']` attribute. See the <attributes/default.rb>
+If you need more control over the final configuration of your Chef Server instance you can create a JSON attributes file and set underlying configuration via the `node['chef-server']['configuration']` attribute. See the [attributes file](chef-server/attributes/default.rb).
 
 Then pass this file to the initial chef-solo command:
 
