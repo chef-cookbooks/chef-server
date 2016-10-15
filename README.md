@@ -89,7 +89,7 @@ sudo mkdir -p /var/chef/cache /var/chef/cookbooks
 # pull down this chef-server cookbook
 wget -qO- https://supermarket.chef.io/cookbooks/chef-server/download | sudo tar xvzC /var/chef/cookbooks
 # pull down dependency cookbooks
-for dep in chef-ingredient yum-chef yum apt-chef apt packagecloud compat_resource
+for dep in chef-ingredient chef_compat yum-chef yum apt-chef apt packagecloud compat_resource
 do
   wget -qO- https://supermarket.chef.io/cookbooks/${dep}/download | sudo tar xvzC /var/chef/cookbooks
 done
@@ -97,7 +97,7 @@ done
 sudo chef-solo -o 'recipe[chef-server::default]'
 ```
 
-Be sure to download and untar the `chef-ingredient`, `yum-chef`, `yum`, `apt-chef`, `apt`, and `packagecloud` cookbooks. They're dependencies of this cookbook.
+Be sure to download and untar the `chef-ingredient`, `yum-chef`, `yum`, `apt-chef`, `apt`, `chef_compat` and `packagecloud` cookbooks. They're dependencies of this cookbook.
 
 If you need more control over the final configuration of your Chef Server instance you can create a JSON attributes file and set underlying configuration via the `node['chef-server']['configuration']` attribute. See the [attributes file](chef-server/attributes/default.rb).
 
