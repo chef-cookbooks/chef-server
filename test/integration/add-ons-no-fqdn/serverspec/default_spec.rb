@@ -9,10 +9,6 @@ describe 'chef-server' do
     it { should be_installed }
   end
 
-  describe package('chef-sync') do
-    it { should be_installed }
-  end
-
   describe command('chef-manage-ctl status') do
     its(:exit_status) { should eq 0 }
   end

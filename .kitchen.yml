@@ -49,4 +49,3 @@ suites:
       api_fqdn: ''
       addons:
         - manage
-        - sync
