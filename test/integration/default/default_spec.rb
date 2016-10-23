@@ -1,7 +1,6 @@
-require_relative './spec_helper'
 require 'resolv'
 
-describe 'chef-server' do
+control 'chef-server' do
   describe package('chef-server-core') do
     it { should be_installed }
   end
