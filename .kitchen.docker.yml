@@ -93,35 +93,16 @@ platforms:
 suites:
 - name: default
   run_list:
-  - recipe[test]
-  - recipe[chef-server]
-  - recipe[test::post-install]
-  attributes:
-    chef-server:
-      api_fqdn: 'chef-server-tk.example.com'
-
+  - recipe[test::default]
 - name: no-fqdn
   run_list:
-  - recipe[test]
-  - recipe[chef-server]
+  - recipe[test::no-fqdn]
   driver:
     network:
       - ['private_network', {ip: '192.168.243.2'}]
-  attributes:
-    chef-server:
-      api_fqdn: ''
-
 - name: add-ons-no-fqdn
   run_list:
-  - recipe[test]
-  - recipe[chef-server]
-  - recipe[chef-server::addons]
+  - recipe[test::add-ons-no-fqdn]
   driver:
     network:
       - ['private_network', {ip: '192.168.243.3'}]
-  attributes:
-    chef-server:
-      api_fqdn: ''
-      addons:
-        - manage
-      accept_license: true

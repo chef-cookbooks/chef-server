@@ -20,9 +20,15 @@ services: docker
 
 env:
   matrix:
+  - INSTANCE=default-ubuntu-1204
   - INSTANCE=default-ubuntu-1404
+  - INSTANCE=default-ubuntu-1604
+  - INSTANCE=default-centos-6
   - INSTANCE=default-centos-7
+  - INSTANCE=add-ons-no-fqdn-ubuntu-1204
   - INSTANCE=add-ons-no-fqdn-ubuntu-1404
+  - INSTANCE=add-ons-no-fqdn-ubuntu-1604
+  - INSTANCE=add-ons-no-fqdn-centos-6
   - INSTANCE=add-ons-no-fqdn-centos-7
 
 before_script:
