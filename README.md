@@ -28,28 +28,19 @@ It is also not in the scope of this cookbook to handle older versions of Chef Se
 
 The attributes used by this cookbook are under the `chef-server` name space.
 
-Attribute     | Description                                                                                                                                                         | Type   | Default
-------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ | ------------
-api_fqdn      | Fully qualified domain name that you want to use for accessing the Web UI and API. If set to `nil` or empty string (`""`), the IP address will be used as hostname. | String | node['fqdn']
-configuration | Configuration to pass down to the underlying server config file (i.e. `/etc/chef-server/chef-server.rb`).                                                           | String | ""
-version       | Chef Server version to install. If `nil`, the latest version is installed                                                                                           | String | nil
-addons        | Array of addon packages (you need to add the addons recipe to the run list for the addons to be installed)                                                          | Array  | Array.new
-accept_license | A boolean value that specifies if license should be accepted if it is asked for during reconfigure. | Boolean | false
+Attribute      | Description                                                                                                                                                         | Type    | Default
+-------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- | ------------
+api_fqdn       | Fully qualified domain name that you want to use for accessing the Web UI and API. If set to `nil` or empty string (`""`), the IP address will be used as hostname. | String  | node['fqdn']
+configuration  | Configuration to pass down to the underlying server config file (i.e. `/etc/chef-server/chef-server.rb`).                                                           | String  | ""
+version        | Chef Server version to install. If `nil`, the latest version is installed                                                                                           | String  | nil
+addons         | Array of addon packages (you need to add the addons recipe to the run list for the addons to be installed)                                                          | Array   | Array.new
+accept_license | A boolean value that specifies if license should be accepted if it is asked for during reconfigure.                                                                 | Boolean | false
 
 Previous versions of this cookbook had several other attributes used to control the version of the Chef Server package to install. This is deprecated.
 
 Previous versions of this cookbook used `configuration` as a Hash. This is now deprecated and the configuration should be specified as a String. This must include newlines for each of the configuration items.
 
-See <https://docs.chef.io/config_rb_server.html> for configuration options for Chef Server and below table for addons:
-
-Addon            | Product Name                  | Config Documentation
----------------- | ----------------------------- | ----------------------------------------------------
-manage           | Management Console            | https://docs.chef.io/config_rb_manage.html
-ha               | Chef Server High Availability | https://docs.chef.io/server_high_availability.html
-sync             | Chef Server Replication       | https://docs.chef.io/config_rb_chef_sync.html
-reporting        | Chef Server Reporting         | No separate config.
-push-jobs-server | Chef Push Server              | https://docs.chef.io/config_rb_push_jobs_server.html
-supermarket      | Supermarket                   | https://docs.chef.io/config_rb_supermarket.html
+See <https://docs.chef.io/config_rb_server.html> for configuration options for Chef Server. For a complete list of product names for use in the add-ons attribute see <https://github.com/chef/mixlib-install/blob/master/PRODUCT_MATRIX.md>
 
 ## Recipes
 
@@ -166,6 +157,7 @@ If on convergence you are observing an error in the form of:
              ---- End output of chef-manage-ctl reconfigure ----
              Ran chef-manage-ctl reconfigure returned 1
 ```
+
 when using proprietary Chef products, you will need to make sure to accept the Chef Master License and Services Agreement (Chef MSLA).
 
 Proprietary Chef products—such as Chef Compliance, Chef Delivery, Chef Analytics, Reporting, and the Chef Management Console—are governed by the Chef MLSA. [The Chef MLSA must be accepted when installing or reconfiguring the product](https://docs.chef.io/chef_license.html). Chef ingredient added the [accept_license](https://github.com/chef-cookbooks/chef-ingredient/pull/101) property to provide a way to automate this. This fix adds the attribute ['chef-server']['accept_license']. The default value is _false_. Individuals must explicitly change the value to true in their environment to accept the license. Make sure you set the node attribute ['chef-server']['accept_license'] = true to resolve this error.
