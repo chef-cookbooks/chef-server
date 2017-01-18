@@ -35,7 +35,7 @@ platforms:
     platform: rhel
     pid_one_command: /sbin/init
     intermediate_instructions:
-      - RUN yum -y install lsof which initscripts net-tools wget wget net-tools
+      - RUN yum -y install lsof which initscripts net-tools wget net-tools
 
 - name: centos-7
   driver:
