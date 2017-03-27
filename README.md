@@ -12,18 +12,13 @@ It is also not in the scope of this cookbook to handle older versions of Chef Se
 
 ### Platforms
 
-This cookbook is tested on the following platforms using the [Test Kitchen](http://kitchen.ci) `.kitchen.yml` in the repository.
+- RHEL 6+
+- Ubuntu 14.04+
 
-- RHEL/CentOS 6 64-bit
-- RHEL/CentOS 7 64-bit
-- Ubuntu 12.04, 12.10 64-bit
-- Ubuntu 14.04, 14.10 64-bit
-
-Unlisted platforms in the same family, of similar or equivalent versions may work with or without modification to this cookbook. For a list of supported platforms for Chef Server, see the [Chef documentation](https://docs.chef.io/supported_platforms.html#chef-server-title).
 
 ### Chef
 
-- Chef 12.1+
+- Chef 12.5+
 
 ### Cookbooks
 
