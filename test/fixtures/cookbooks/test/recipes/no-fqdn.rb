@@ -1,5 +1,5 @@
 node.default['chef-server']['api_fqdn'] = ''
 
-apt_update 'update' if platform_family?('debian')
+apt_update 'update'
 
 include_recipe 'chef-server::default'
