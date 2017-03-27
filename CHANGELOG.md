@@ -2,6 +2,11 @@
 
 This file is used to list changes made in each version of the chef-server cookbook.
 
+## 5.2.0 (2017-03-27)
+
+- Add compat_resource to the readme instructions
+- Pin chef-ingredient and require Chef 12.5+
+
 ## 5.1.0 (2016-09-16)
 - Testing updates
 - Require Chef 12.1 not 12.0
