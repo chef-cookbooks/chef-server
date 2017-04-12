@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of the chef-server cookbook.
 
+## 5.4.0 (2017-04-12)
+
+- Added the ability to specify the versions of each add-on to install so you can lock to specific versions
+
 ## 5.3.0 (2017-04-11)
 
 - Convert testing to kitchen-dokken with inspec with a test recipe that looks more like the wrapper cookbook a user would use
