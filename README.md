@@ -33,7 +33,7 @@ Attribute     | Description                                                     
 api_fqdn      | Fully qualified domain name that you want to use for accessing the Web UI and API. If set to `nil` or empty string (`""`), the IP address will be used as hostname. | String | node['fqdn']
 configuration | Configuration to pass down to the underlying server config file (i.e. `/etc/chef-server/chef-server.rb`).                                                           | String | ""
 version       | Chef Server version to install. If `nil`, the latest version is installed                                                                                           | String | nil
-addons        | Array of addon packages (you need to add the addons recipe to the run list for the addons to be installed)                                                          | Array  | Array.new
+addons        | Array of addon packages, or Hash if you want to lock addon version Example: {package1:'version'} (you need to add the addons recipe to the run list for the addons to be installed)                                                          | Array  | []
 accept_license | A boolean value that specifies if license should be accepted if it is asked for during reconfigure. | Boolean | false
 
 Previous versions of this cookbook had several other attributes used to control the version of the Chef Server package to install. This is deprecated.
@@ -66,9 +66,12 @@ This recipe:
 
 ### addons
 
-Chef addons are premium features that can be installed on the Chef Server with the [appropriate license](https://www.chef.io/chef/#plans-and-pricing). If there are < 25 nodes managed, or a paid subscription license, addons can be installed.
+Chef addons are premium features that can be installed on the Chef Server with the [appropriate license](https://www.chef.io/chef/#plans-and-pricing). If there are under 25 nodes managed, or a paid subscription license, addons can be installed.
 
 This recipe iterates through the `node['chef-server']['addons']` attribute and installs and reconfigures all the packages listed.
+Note: When multipel add-ons are installed, and one of them has version locked, either lock versions of all packages (best practice) or set it to nil or :latest
+Example:
+default['chef-server']['addons'] = {'chef-manage' => '2.5.0', reporting: nil}
 
 ## Install Methods
 
