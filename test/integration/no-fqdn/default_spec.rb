@@ -1,7 +1,6 @@
-require_relative './spec_helper'
 require 'resolv'
 
-describe 'chef-server-no-fqdn' do
+control 'chef-server-no-fqdn' do
   describe file('/etc/opscode/chef-server.rb') do
     its(:content) { should_not match(/^api_fqdn.*$/) }
   end
