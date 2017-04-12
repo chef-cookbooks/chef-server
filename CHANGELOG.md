@@ -2,6 +2,13 @@
 
 This file is used to list changes made in each version of the chef-server cookbook.
 
+## 5.3.0 (2017-04-11)
+
+- Convert testing to kitchen-dokken with inspec with a test recipe that looks more like the wrapper cookbook a user would use
+- Convert lint / unit testing from Rake to Delivery local mode
+- Remove the table of product names in the readme, which weren't up to date. Link to mixlib-install instead since that list is updated
+- Update the license strings to be SPDX standard Apache-2.0
+
 ## 5.2.0 (2017-03-27)
 
 - Add compat_resource to the readme instructions
