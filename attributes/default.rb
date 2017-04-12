@@ -26,6 +26,8 @@ default['chef-server']['api_fqdn'] = node['fqdn']
 
 default['chef-server']['topology'] = 'standalone'
 default['chef-server']['addons'] = []
+# Example of installing specific version of manage:
+# default['chef-server']['addons'] = {'chef-manage' => '2.5.0'}
 
 # Chef Licensing requirements
 # https://docs.chef.io/install_server.html
