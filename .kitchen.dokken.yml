@@ -36,7 +36,7 @@ platforms:
     platform: rhel
     pid_one_command: /sbin/init
     intermediate_instructions:
-      - RUN yum -y install lsof which initscripts net-tools wget net-tools
+      - RUN yum -y install lsof which initscripts net-tools wget net-tools crontabs
 
 - name: centos-7
   driver:
@@ -44,7 +44,7 @@ platforms:
     platform: rhel
     pid_one_command: /usr/lib/systemd/systemd
     intermediate_instructions:
-      - RUN yum -y install lsof which systemd-sysv initscripts wget net-tools
+      - RUN yum -y install lsof which systemd-sysv initscripts wget net-tools crontabs
 
 - name: fedora-latest
   driver:
@@ -59,7 +59,7 @@ platforms:
     pid_one_command: /sbin/init
     intermediate_instructions:
       - RUN /usr/bin/apt-get update
-      - RUN /usr/bin/apt-get install apt-transport-https lsb-release procps net-tools -y
+      - RUN /usr/bin/apt-get install apt-transport-https lsb-release procps net-tools cron hostname -y
 
 - name: ubuntu-16.04
   driver:
@@ -67,7 +67,7 @@ platforms:
     pid_one_command: /bin/systemd
     intermediate_instructions:
       - RUN /usr/bin/apt-get update
-      - RUN /usr/bin/apt-get install apt-transport-https lsb-release procps net-tools -y
+      - RUN /usr/bin/apt-get install apt-transport-https lsb-release procps net-tools cron hostname -y
 
 - name: opensuse-leap
   driver:
