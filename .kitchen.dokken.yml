@@ -8,6 +8,7 @@ transport:
 
 provisioner:
   name: dokken
+  chef_zero_port: 9010
 
 verifier:
   name: inspec
