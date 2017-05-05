@@ -76,10 +76,14 @@ sudo mkdir -p /var/chef/cache /var/chef/cookbooks
 # pull down this chef-server cookbook
 wget -qO- https://supermarket.chef.io/cookbooks/chef-server/download | sudo tar xvzC /var/chef/cookbooks
 # pull down dependency cookbooks
-for dep in chef-ingredient yum-chef yum apt-chef apt packagecloud compat_resource
+for dep in yum-chef yum apt-chef apt packagecloud compat_resource
 do
   wget -qO- https://supermarket.chef.io/cookbooks/${dep}/download | sudo tar xvzC /var/chef/cookbooks
 done
+# chef-server does not work with the latest chef-ingredients, so get 1.1.0
+# per the fix found in issue #137
+knife cookbook site download chef-ingredient 1.1.0
+sudo tar xvzC chef-ingredient 1.1.0.tar.gz /var/chef/cookbooks && rm -f chef-ingredient 1.1.0.tar.gz
 # GO GO GO!!!
 sudo chef-solo -o 'recipe[chef-server::default]'
 ```
