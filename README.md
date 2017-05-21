@@ -57,9 +57,9 @@ This recipe:
 
 Chef addons are premium features that can be installed on the Chef Server with the [appropriate license](https://www.chef.io/chef/#plans-and-pricing). If there are under 25 nodes managed, or a paid subscription license, addons can be installed.
 
-This recipe iterates through the `node['chef-server']['addons']` attribute and installs and reconfigures all the packages listed.  
+This recipe iterates through the `node['chef-server']['addons']` attribute and installs and reconfigures all the packages listed.
 _Note_: When multiple add-ons are installed, and one of them has version locked, either lock versions of all packages (best practice) or set version to `nil`
-Example:  
+Example:
 default['chef-server']['addons'] = {'chef-manage' => '2.5.0', reporting: nil}
 
 ## Install Methods
@@ -83,7 +83,7 @@ done
 # chef-server does not work with the latest chef-ingredients, so get 1.1.0
 # per the fix found in issue #137
 knife cookbook site download chef-ingredient 1.1.0
-sudo tar xvzC chef-ingredient 1.1.0.tar.gz /var/chef/cookbooks && rm -f chef-ingredient 1.1.0.tar.gz
+sudo tar xvzf chef-ingredient-1.1.0.tar.gz -C /var/chef/cookbooks && rm -f chef-ingredient-1.1.0.tar.gz
 # GO GO GO!!!
 sudo chef-solo -o 'recipe[chef-server::default]'
 ```
