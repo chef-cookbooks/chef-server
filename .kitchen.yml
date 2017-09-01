@@ -11,8 +11,8 @@ verifier:
   name: inspec
 
 platforms:
-  - name: centos-6.9
-  - name: centos-7.3
+  - name: centos-6
+  - name: centos-7
   - name: ubuntu-14.04
   - name: ubuntu-16.04
 
