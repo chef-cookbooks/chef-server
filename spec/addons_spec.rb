@@ -9,6 +9,6 @@ describe 'chef-server::addons' do
 
   it 'installs addons' do
     expect(subject).to install_chef_ingredient('manage').with_version('2.5.0')
-    expect(subject).to install_chef_ingredient('reporting').with_version(:latest)
+    expect(subject).to install_chef_ingredient('reporting')
   end
 end
