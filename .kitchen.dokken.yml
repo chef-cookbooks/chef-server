@@ -14,6 +14,13 @@ verifier:
   name: inspec
 
 platforms:
+- name: amazonlinux
+  driver:
+    image: dokken/amazonlinux
+    pid_one_command: /sbin/init
+    intermediate_instructions:
+      - RUN yum -y crontabs
+
 - name: debian-7
   driver:
     image: dokken/debian-7
@@ -39,16 +46,15 @@ platforms:
   driver:
     image: dokken/centos-6
     pid_one_command: /sbin/init
+    intermediate_instructions:
+      - RUN yum -y crontabs
 
 - name: centos-7
   driver:
     image: dokken/centos-7
     pid_one_command: /usr/lib/systemd/systemd
-
-- name: fedora-latest
-  driver:
-    image: dokken/fedora-latest
-    pid_one_command: /usr/lib/systemd/systemd
+    intermediate_instructions:
+      - RUN yum -y crontabs
 
 - name: ubuntu-14.04
   driver:
@@ -63,11 +69,6 @@ platforms:
     pid_one_command: /bin/systemd
     intermediate_instructions:
       - RUN /usr/bin/apt-get update
-
-- name: opensuse-leap
-  driver:
-    image: dokken/opensuse-leap
-    pid_one_command: /bin/systemd
 
 suites:
 - name: default
