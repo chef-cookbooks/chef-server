@@ -8,7 +8,7 @@ transport:
 
 provisioner:
   name: dokken
-  chef_zero_port: 9010
+  chef_options: '-z --chef-zero-port 9010'
 
 verifier:
   name: inspec
@@ -19,7 +19,7 @@ platforms:
     image: dokken/amazonlinux
     pid_one_command: /sbin/init
     intermediate_instructions:
-      - RUN yum -y crontabs
+      - RUN yum install -y crontabs
 
 - name: debian-7
   driver:
@@ -47,14 +47,14 @@ platforms:
     image: dokken/centos-6
     pid_one_command: /sbin/init
     intermediate_instructions:
-      - RUN yum -y crontabs
+      - RUN yum install -y crontabs
 
 - name: centos-7
   driver:
     image: dokken/centos-7
     pid_one_command: /usr/lib/systemd/systemd
     intermediate_instructions:
-      - RUN yum -y crontabs
+      - RUN yum install -y crontabs
 
 - name: ubuntu-14.04
   driver:
@@ -69,6 +69,7 @@ platforms:
     pid_one_command: /bin/systemd
     intermediate_instructions:
       - RUN /usr/bin/apt-get update
+      - RUN /usr/bin/apt-get install -y tzdata cron
 
 suites:
 - name: default
