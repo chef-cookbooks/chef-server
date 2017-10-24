@@ -16,7 +16,7 @@ It is not in the scope of this cookbook to handle more complex Chef Server topol
 
 ### Chef
 
-- Chef 12.5+
+- Chef 12.7+
 
 ### Cookbooks
 
