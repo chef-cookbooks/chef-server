@@ -2,6 +2,12 @@
 
 This file is used to list changes made in each version of the chef-server cookbook.
 
+## 5.5.0 (2017-10-23)
+
+- Require Chef 12.7 or later as 12.5 and 12.6 had issues with custom resources
+- Require Chef Ingredient >= 2.1.10 which is compatible with this cookbook once again
+- Improve testing with spec cleanups and using dokken-images in Travis CI
+
 ## 5.4.0 (2017-04-12)
 
 - Added the ability to specify the versions of each add-on to install so you can lock to specific versions
