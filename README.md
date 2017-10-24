@@ -20,7 +20,7 @@ It is not in the scope of this cookbook to handle more complex Chef Server topol
 
 ### Cookbooks
 
-- chef-ingredient >= 0.18
+- chef-ingredient >= 2.1.12
 
 ## Attributes
 
