@@ -2,6 +2,11 @@
 
 This file is used to list changes made in each version of the chef-server cookbook.
 
+## 5.5.1 (2017-10-25)
+
+- Update the bootstrap instructions in the readme to remove the old dependent cookbooks
+- Don't fail if add-on version is not specified
+
 ## 5.5.0 (2017-10-23)
 
 - Require Chef 12.7 or later as 12.5 and 12.6 had issues with custom resources
