@@ -9,6 +9,7 @@ transport:
 provisioner:
   name: dokken
   chef_options: '-z --chef-zero-port 9010'
+  deprecations_as_errors: true
 
 verifier:
   name: inspec
@@ -70,20 +71,3 @@ platforms:
     intermediate_instructions:
       - RUN /usr/bin/apt-get update
       - RUN /usr/bin/apt-get install -y tzdata cron
-
-suites:
-- name: default
-  run_list:
-  - recipe[test::default]
-- name: no-fqdn
-  run_list:
-  - recipe[test::no-fqdn]
-  driver:
-    network:
-      - ['private_network', {ip: '192.168.243.2'}]
-- name: add-ons-no-fqdn
-  run_list:
-  - recipe[test::add-ons-no-fqdn]
-  driver:
-    network:
-      - ['private_network', {ip: '192.168.243.3'}]
