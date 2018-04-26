@@ -84,8 +84,6 @@ done
 sudo chef-solo -o 'recipe[chef-server::default]'
 ```
 
-Be sure to download and untar the `chef-ingredient`, `yum-chef`, `yum`, `apt-chef`, `apt`, `compat_resource` and `packagecloud` cookbooks. They're dependencies of this cookbook.
-
 If you need more control over the final configuration of your Chef Server instance you can create a JSON attributes file and set underlying configuration via the `node['chef-server']['configuration']` attribute. See the [attributes file](chef-server/attributes/default.rb).
 
 Then pass this file to the initial chef-solo command:
