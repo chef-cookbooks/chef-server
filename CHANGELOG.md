@@ -2,6 +2,11 @@
 
 This file is used to list changes made in each version of the chef-server cookbook.
 
+## 5.5.2 (2018-07-24)
+
+- Test add-ons installation in Travis
+- Remove sentence about old dependencies
+
 ## 5.5.1 (2017-10-25)
 
 - Update the bootstrap instructions in the readme to remove the old dependent cookbooks
