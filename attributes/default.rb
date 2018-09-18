@@ -40,7 +40,7 @@ default['chef-server']['accept_license'] = false
 # Chef Server Tunables
 #
 # For a complete list see:
-# https://docs.chef.io/server/config_rb_server_optional_settings.html
+# https://docs.chef.io/config_rb_server_optional_settings.html
 #
 # Example:
 #
