@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of the chef-server cookbook.
 
+## 5.5.3 (2019-01-11)
+
+- Bug change to update `chef_server` resource inside chef-ingredient cookbook [@oscar123mendoza](https://github.com/oscar123mendoza)
+
 ## 5.5.2 (2018-07-24)
 
 - Test add-ons installation in Travis
