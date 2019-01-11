@@ -26,7 +26,7 @@ ruby_block 'ensure node can resolve API FQDN' do
   not_if { api_fqdn_resolves? }
 end
 
-chef_ingredient 'chef-server' do
+chef_ingredient 'chef_server' do
   extend ChefServerCookbook::Helpers
   version node['chef-server']['version'] unless node['chef-server']['version'].nil?
   package_source node['chef-server']['package_source']
@@ -43,5 +43,5 @@ file "#{cache_path}/chef-server-core.firstrun" do
 end
 
 ingredient_config 'chef-server' do
-  notifies :reconfigure, 'chef_ingredient[chef-server]', :immediately
+  notifies :reconfigure, 'chef_ingredient[chef_server]', :immediately
 end
