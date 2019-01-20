@@ -34,7 +34,7 @@ chef_ingredient 'chef-server' do
 topology "#{node['chef-server']['topology']}"
 #{"api_fqdn \"#{node['chef-server']['api_fqdn']}\"" if api_fqdn_available?}
 #{node['chef-server']['configuration']}
-EOS
+  EOS
   action :install
 end
 

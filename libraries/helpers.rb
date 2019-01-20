@@ -1,4 +1,3 @@
-
 module ChefServerCookbook
   module Helpers
     def api_fqdn_available?
