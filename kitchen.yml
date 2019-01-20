@@ -14,8 +14,8 @@ verifier:
 platforms:
   - name: centos-6
   - name: centos-7
-  - name: ubuntu-14.04
   - name: ubuntu-16.04
+  - name: ubuntu-18.04
 
 suites:
 - name: default
