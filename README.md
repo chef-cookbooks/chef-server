@@ -84,7 +84,7 @@ done
 sudo chef-solo -o 'recipe[chef-server::default]'
 ```
 
-If you need more control over the final configuration of your Chef Server instance you can create a JSON attributes file and set underlying configuration via the `node['chef-server']['configuration']` attribute. See the [attributes file](chef-server/attributes/default.rb).
+If you need more control over the final configuration of your Chef Server instance you can create a JSON attributes file and set underlying configuration via the `node['chef-server']['configuration']` attribute. See the [attributes file](attributes/default.rb).
 
 Then pass this file to the initial chef-solo command:
 
