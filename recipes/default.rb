@@ -30,6 +30,7 @@ chef_ingredient 'chef-server' do
   extend ChefServerCookbook::Helpers
   version node['chef-server']['version'] unless node['chef-server']['version'].nil?
   package_source node['chef-server']['package_source']
+  accept_license node['chef-server']['accept_license']
   config <<-EOS
 topology "#{node['chef-server']['topology']}"
 #{"api_fqdn \"#{node['chef-server']['api_fqdn']}\"" if api_fqdn_available?}

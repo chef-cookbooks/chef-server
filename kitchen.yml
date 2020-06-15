@@ -22,15 +22,24 @@ suites:
 - name: default
   run_list:
   - recipe[test::default]
+  attributes:
+    chef-server:
+      accept_license: true
 - name: no-fqdn
   run_list:
   - recipe[test::no-fqdn]
   driver:
     network:
       - ['private_network', {ip: '192.168.243.2'}]
+  attributes:
+    chef-server:
+      accept_license: true
 - name: add-ons-no-fqdn
   run_list:
   - recipe[test::add-ons-no-fqdn]
   driver:
     network:
       - ['private_network', {ip: '192.168.243.3'}]
+  attributes:
+    chef-server:
+      accept_license: true
