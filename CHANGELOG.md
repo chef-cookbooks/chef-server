@@ -2,6 +2,14 @@
 
 This file is used to list changes made in each version of the chef-server cookbook.
 
+## 5.5.3 (2020-06-15)
+
+- Swap Ubuntu 14.04 testing for 18.04 - [@tas50](https://github.com/tas50)
+- Cookstyle fixes - [@tas50](https://github.com/tas50)
+- Fix attributes github page href - [@deargle](https://github.com/deargle)
+- Require Chef 12.15+ - [@tas50](https://github.com/tas50)
+- Honor accept_license attribute
+
 ## 5.5.2 (2018-07-24)
 
 - Test add-ons installation in Travis
