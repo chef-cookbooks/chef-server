@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of the chef-server cookbook.
 
+## 5.6.0 (2020-08-20)
+
+- Allow `options` to be passed to `chef_ingredient` - [@nvwls](https://github.com/nvwls)
+
 ## 5.5.3 (2020-06-15)
 
 - Swap Ubuntu 14.04 testing for 18.04 - [@tas50](https://github.com/tas50)

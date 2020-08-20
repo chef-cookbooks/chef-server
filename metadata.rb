@@ -1,5 +1,5 @@
 name 'chef-server'
-version '5.5.3'
+version '5.6.0'
 maintainer 'Chef Software, Inc.'
 maintainer_email 'cookbooks@chef.io'
 license 'Apache-2.0'
