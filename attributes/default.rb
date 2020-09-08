@@ -27,8 +27,13 @@ default['chef-server']['api_fqdn'] = node['fqdn']
 
 default['chef-server']['topology'] = 'standalone'
 default['chef-server']['addons'] = []
-# Example of installing specific version of manage:
-# default['chef-server']['addons'] = {'chef-manage' => '2.5.0'}
+# For a complete list of product names for use in the addons attribute see https://github.com/chef/mixlib-install/blob/master/PRODUCT_MATRIX.md
+#
+# Example of installing specific version of Chef Manage:
+#   default['chef-server']['addons'] = {'manage' => '2.5.16'}
+#
+# Example of installing specific version of Chef Push Jobs Server:
+#   default['chef-server']['addons'] = {'push-jobs-server' => '2.2.8'}
 
 # Chef Licensing requirements
 # https://docs.chef.io/install_server.html
@@ -47,17 +52,17 @@ default['chef-server']['accept_license'] = false
 #
 # In a recipe:
 #
-#     node.override['chef-server']['configuration'] = <<-EOS
-#     nginx['ssl_port'] = 4433
+#     node.override['chef-server']['configuration'] = <<~EOS
+#       nginx['ssl_port'] = 4433
 #     EOS
 #
 # In a role:
 #
 #     default_attributes(
 #       'chef-server' => {
-#         'configuration' => <<-EOS
-#     nginx['ssl_port'] = 4433
-#     EOS
+#         'configuration' => <<~EOS
+#           nginx['ssl_port'] = 4433
+#         EOS
 #       }
 #     )
 #
